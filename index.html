@@ -81,12 +81,13 @@ const $=s=>document.querySelector(s),main=$('#main');
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
-const newD=()=>({score:0,hist:[],lv:{},err:{},fc:{},days:{},best:0,med:[],mute:0,gh:0});
+const newD=()=>({score:0,hist:[],lv:{},err:{},fc:{},days:{},best:0,med:[],mute:0,gh:0,u:0});
 let cloud=false,FB=null,fbU=null,svT=null,LEG=null,unsubs=[];
 let R={cur:null,names:[],d:{},u:{}},D=newD(),cur=null,tm=null,lastStory=-1,scr='home',parOK=false,cur_srcs=null;
 try{const s=localStorage.getItem('mc3');if(s)R=JSON.parse(s)}catch(e){}
 R.u=R.u||{};R.names=R.names||[];R.d=R.d||{};R.cur=null;D=newD();R.theme=(()=>{try{return localStorage.getItem('mct')}catch(e){return null}})()||R.theme||'auto';
-const save=()=>{try{if(R.cur)R.d[R.cur]=D;if(cloud){pushSoon();return}localStorage.setItem('mc3',JSON.stringify(R))}catch(e){}};
+const saveLocal=()=>{try{const k=cloud&&fbU?'mc3_c_'+fbU.uid:'mc3';localStorage.setItem(k,JSON.stringify({names:R.names,d:R.d,u:R.u,pin:R.pin,cs:R.cs,keep:R.keep,theme:R.theme}))}catch(e){}};
+const save=()=>{try{if(R.cur){D.u=Date.now();R.d[R.cur]=D}saveLocal();if(cloud)pushSoon()}catch(e){}};
 const T=()=>new Date().toLocaleDateString('sv');
 const GOAL=100;
 function streak(){let n=0;const d=Date.now();for(let i=0;i<400;i++){const k=new Date(d-i*864e5).toLocaleDateString('sv');if(D.days[k]!==undefined)n++;else if(i>0)break}return n}
@@ -122,7 +123,7 @@ const FR=['El gato duerme en la cama.','Mi madre cocina una tarta.','Luna corre 
 function choices(el,o,c,ans,cl){
   const d=document.createElement('div');d.className='opts '+(cl||'');
   o.forEach((t,i)=>{const b=document.createElement('button');b.className='opt';b.textContent=t;
-    b.onclick=()=>{if(cur.locked)return;const ok=i===c;b.classList.add(ok?'good':'bad');if(!ok)d.children[c].classList.add('good');ans(ok,o[c])};d.appendChild(b)});
+    b.onclick=()=>{if(cur.locked)return;const ok=i===c;b.classList.add(ok?'good':'bad');if(!ok)d.children[c].classList.add('good');ans(ok,o[c],i)};d.appendChild(b)});
   el.appendChild(d);
 }
 const mc=(q,right,wr,extra)=>{const o=shuffle([right,...wr]);return Object.assign({q,o,c:o.indexOf(right)},extra)};
@@ -493,14 +494,15 @@ const G={m:['Matemáticas','var(--m)'],i:['Inglés','var(--i)'],l:['Lengua','var
 const MED=[['🌱','Primera partida',()=>D.hist.length>=1],['🎯','10 aciertos seguidos',()=>D.best>=10],['💯','Ronda perfecta',()=>D.hist.some(h=>h.ok===h.n&&h.n>=4)],['📅','Juega 5 días distintos',()=>Object.keys(D.days).length>=5],['🧠','Sube a nivel 3',()=>Object.values(D.lv).some(x=>x>=3)],['🔥','3 días seguidos',()=>streak()>=3],['🏆','7 días seguidos',()=>streak()>=7],['🎓','Las 3 asignaturas',()=>new Set(D.hist.map(h=>A[h.k].g).filter(g=>g!=='x')).size>=3],['🎁','Meta diaria',()=>D.gh>0],['👑','Llega al nivel 10',()=>Object.values(D.lv).some(x=>x>=10)],['🎯','Reto del día completo',()=>(D.rtDone||0)>=1],['📆','7 retos del día',()=>(D.rtDone||0)>=7],['🛍️','Primera compra',()=>!!(D.shop&&D.shop.own&&D.shop.own.length)],['📝','Primer examen',()=>(D.ex||[]).length>=1],['🥇','Nota 9 o más en un examen',()=>(D.ex||[]).some(e=>e.nota>=9)],['👑','Colección completa',()=>!!(D.shop&&D.shop.own&&D.shop.own.includes('s:'+SPECIAL))],['🪐','Álbum Espacio completo',()=>!!(D.shop&&D.shop.own&&D.shop.own.includes('e:'+ALB[1].sp))],['🐠','Álbum Océano completo',()=>!!(D.shop&&D.shop.own&&D.shop.own.includes('o:'+ALB[2].sp))],['🦕','Álbum Dinosaurios completo',()=>!!(D.shop&&D.shop.own&&D.shop.own.includes('d:'+ALB[3].sp))]];
 
 /* ---- flujo de juego ---- */
-function start(k){if(k==='exam'){startExam();return}if(k==='cue'&&!cueGo){cuePicker();return}cueGo=false;const a=A[k];let r,items;
-  if(k==='rev'){const src=[];items=[];Object.keys(D.err).forEach(kk=>{while((D.err[kk]||[]).length&&items.length<10){items.push(D.err[kk].shift());src.push(kk)}});if(!items.length){toast('¡No tienes errores que repasar! 🎉',true);return}r=items.map((it,j)=>A[src[j]].round(it));cur_srcs=src}else if(a.make){({r,items}=a.make())}else{items=a.pool();const rv=(D.err[k]||[]).splice(0,3);items=[...rv,...items].slice(0,Math.max(items.length,rv.length));r=items.map(a.round)}
-  cur={k,r,items,srcs:k==='rev'?cur_srcs:null,i:-1,ok:0,n:0,pts:0,run:0,locked:false};scr='play';chrome();next()}
+function start(k){if(k==='exam'){startExam();return}if(k==='cue'&&!cueGo){cuePicker();return}cueGo=false;const a=A[k];let r,items,fromErr=[];
+  if(k==='rev'){const src=[];items=[];Object.keys(D.err).forEach(kk=>{const arr=D.err[kk]||[];for(let idx=0;idx<arr.length&&items.length<10;idx++){items.push(arr[idx]);src.push(kk);fromErr.push(true)}});if(!items.length){toast('¡No tienes errores que repasar! 🎉',true);return}r=items.map((it,j)=>A[src[j]].round(it));cur_srcs=src}else if(a.make){({r,items}=a.make())}else{items=a.pool();const rv=(D.err[k]||[]).slice(0,3);items=[...rv,...items].slice(0,Math.max(items.length,rv.length));fromErr=items.map((_,idx)=>idx<rv.length);r=items.map(a.round)}
+  cur={k,r,items,fromErr,srcs:k==='rev'?cur_srcs:null,i:-1,ok:0,n:0,pts:0,run:0,locked:false};scr='play';chrome();next()}
 function next(){cur.i++;cur.locked=false;document.onkeydown=null;
   if(cur.i>=cur.r.length)return cur.exam?endExam():cur.reto!==undefined?endReto():end();const a=A[cur.k],col=G[a.g][1];
   main.innerHTML=`${D.prac&&cur.reto===undefined&&!cur.exam?'<p style="text-align:center;color:var(--muted);font-size:13px;margin:0 0 6px">🧘 Modo práctica: los fallos no restan puntos</p>':''}<div class="bar" style="--a:${col}"><i style="width:${cur.i/cur.r.length*100}%"></i></div><div id="st" style="--a:${col}"></div>`;
   const ans=(ok,x)=>{if(cur.locked)return;cur.locked=true;cur.n++;if(cur.res)cur.res[cur.i]=ok;setScore(ok?5:PEN());beep(ok);
-    if(ok){cur.ok++;cur.run++;D.best=Math.max(D.best,cur.run)}else{cur.run=0;const it=cur.items[cur.i],sk=(cur.srcs&&cur.srcs[cur.i])||cur.k;if(it){const e=D.err[sk]=D.err[sk]||[];if(e.length<12)e.push(it);const kk=sk+'|'+(it.lb||it.w||'?');D.fc[kk]=(D.fc[kk]||0)+1}}
+    const it=cur.items[cur.i],sk=(cur.srcs&&cur.srcs[cur.i])||cur.k;
+    if(ok){cur.ok++;cur.run++;D.best=Math.max(D.best,cur.run);if(it&&D.err[sk]){const idx=D.err[sk].indexOf(it);if(idx>=0){D.err[sk].splice(idx,1);save()}}}else{cur.run=0;if(it){const e=D.err[sk]=D.err[sk]||[];if(!e.includes(it)&&e.length<12){e.push(it);save()}const kk=sk+'|'+(it.lb||it.w||'?');D.fc[kk]=(D.fc[kk]||0)+1;save()}}
     toast(ok?'¡Muy bien! +5':'Ups…'+(PEN()?' −2':'')+(x?' · '+x:''),ok);setTimeout(next,1400)};
   cur.r[cur.i]($('#st'),ans,()=>{cur.locked=true;next()})}
 const pct=h=>h.n?Math.round(h.ok/h.n*100):0;
@@ -544,8 +546,8 @@ function mkQ(t,x){
  for(const s of cand){if(qs.length>=4)break;
   const sl=s.toLowerCase(),ws=shuffle((sl.match(rx)||[]).filter(w=>words.includes(w)));if(!ws.length)continue;
   const w=ws[0],d=shuffle(words.filter(y=>y!==w&&!sl.includes(y))).slice(0,2);if(d.length<2)continue;
-  const m=new RegExp('(?<![a-záéíóúñü])'+w+'(?![a-záéíóúñü])','i').exec(s);if(!m)continue;
-  const o=shuffle([w,...d]);qs.push(['Completa la frase: «'+esc(s.slice(0,m.index)+'_____'+s.slice(m.index+w.length))+'»',o,o.indexOf(w)])}
+  const m=new RegExp('(^|[^a-záéíóúñü])('+w+')(?![a-záéíóúñü])','i').exec(s);if(!m)continue;
+  const idx=m.index+m[1].length,o=shuffle([w,...d]);qs.push(['Completa la frase: «'+esc(s.slice(0,idx)+'_____'+s.slice(idx+w.length))+'»',o,o.indexOf(w)])}
  const ot=shuffle([t,...shuffle(S.map(s=>s.t)).slice(0,2)]);qs.unshift(['¿Cómo se titula el cuento?',ot,ot.indexOf(t)]);
  return qs}
 
@@ -557,20 +559,33 @@ async function fbInit(){try{const B='https://www.gstatic.com/firebasejs/10.14.1/
  FB={a,au,fs,auth:au.getAuth(app),db};return true}catch(e){console.warn('Firebase no disponible: modo local',e);return false}}
 const fbErr=c=>({'auth/invalid-email':'El email no es válido','auth/invalid-credential':'Email o contraseña incorrectos','auth/user-not-found':'No hay ninguna cuenta con ese email','auth/wrong-password':'Contraseña incorrecta','auth/email-already-in-use':'Ese email ya tiene una cuenta','auth/weak-password':'La contraseña necesita al menos 6 caracteres','auth/too-many-requests':'Demasiados intentos. Espera un poco','auth/network-request-failed':'Sin conexión a internet','auth/missing-password':'Escribe la contraseña'}[c]||'No se ha podido completar ('+c+')');
 function pushSoon(){clearTimeout(svT);svT=setTimeout(pushNow,600)}
-function pushNow(){clearTimeout(svT);if(!cloud||!fbU||!R.cur)return Promise.resolve();const{fs,db}=FB;return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',R.cur),{j:JSON.stringify(R.d[R.cur]||D),u:Date.now()}).catch(e=>console.warn(e))}
+function pushNow(){clearTimeout(svT);if(!cloud||!fbU||!R.cur)return Promise.resolve();const{fs,db}=FB;const payload=R.d[R.cur]||D;const ts=payload.u||Date.now();payload.u=ts;saveLocal();return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',R.cur),{j:JSON.stringify(payload),u:ts},{merge:true}).catch(e=>console.warn(e))}
 function savePin(){if(cloud&&fbU)FB.fs.setDoc(FB.fs.doc(FB.db,'families',fbU.uid),{pin:R.pin},{merge:true}).catch(e=>console.warn(e))}
 function stopSync(){unsubs.forEach(f=>{try{f()}catch(e){}});unsubs=[]}
 function startSync(uid){stopSync();const{fs,db}=FB;let gF=false,gP=false;
+ let cached={};try{const raw=localStorage.getItem('mc3_c_'+uid);if(raw)cached=JSON.parse(raw)||{}}catch(e){}
+ if(cached.d)R.d=Object.assign({},cached.d,R.d);
+ if(cached.names&&!R.names.length)R.names=cached.names.slice();
+ if(cached.pin&&!R.pin)R.pin=cached.pin;
  const ready=()=>{if(gF&&gP&&scr==='wait')afterSync()};
  const er=e=>{console.warn(e);if(scr==='wait'){main.innerHTML='<div class="card" style="margin-top:12vh">No se pudo cargar la cuenta. Revisa las reglas de Firestore.<br><button class="big s" id="rt">Cerrar sesión</button></div>';$('#rt').onclick=()=>FB.au.signOut(FB.auth)}};
- unsubs.push(fs.onSnapshot(fs.doc(db,'families',uid),s=>{const d=s.data()||{};R.pin=d.pin||'';gF=true;ready()},er));
+ unsubs.push(fs.onSnapshot(fs.doc(db,'families',uid),s=>{const d=s.data()||{};if(d.pin!==undefined)R.pin=d.pin||'';saveLocal();gF=true;ready()},er));
  unsubs.push(fs.onSnapshot(fs.collection(db,'families',uid,'players'),s=>{
-  R.names=s.docs.map(d=>d.id);
-  s.docs.forEach(d=>{if(d.metadata.hasPendingWrites)return;let o={};try{o=JSON.parse(d.data().j||'{}')}catch(e){}R.d[d.id]=Object.assign(newD(),o);
-   if(R.cur===d.id&&!cur){D=R.d[d.id];$('#score').textContent=D.score;if(['home','prog','meds','cal'].includes(scr))go(scr)}});
+  const remoteNames=s.docs.map(d=>d.id);
+  const mergedNames=Array.from(new Set([...remoteNames,...(R.cur&&R.names.includes(R.cur)?[R.cur]:[])]));
+  R.names=mergedNames;
+  s.docs.forEach(d=>{if(d.metadata.hasPendingWrites)return;const rawDoc=d.data()||{};let o={};try{o=JSON.parse(rawDoc.j||'{}')}catch(e){}
+   const remObj=Object.assign(newD(),o);const remU=rawDoc.u||remObj.u||0;remObj.u=remU;
+   const locObj=R.d[d.id];const locU=locObj?(locObj.u||0):0;
+   if(locObj&&locU>remU){
+    fs.setDoc(fs.doc(db,'families',uid,'players',d.id),{j:JSON.stringify(locObj),u:locU},{merge:true}).catch(e=>console.warn(e));
+   }else{
+    R.d[d.id]=remObj;
+    if(R.cur===d.id&&!cur){D=R.d[d.id];$('#score').textContent=D.score;if(['home','prog','meds','cal'].includes(scr))go(scr)}
+   }});
   Object.keys(R.d).forEach(n=>{if(!R.names.includes(n))delete R.d[n]});
   if(R.cur&&!R.names.includes(R.cur)){R.cur=null;D=newD();if(scr!=='play'&&scr!=='end'&&scr!=='wait')players()}
-  gP=true;ready();if(scr==='players')players()},er));
+  saveLocal();gP=true;ready();if(scr==='players')players()},er));
  unsubs.push(fs.onSnapshot(fs.collection(db,'stories'),s=>{R.cs=s.docs.map(d=>{const o=d.data();let q=[];try{q=JSON.parse(o.qj||'[]')}catch(e){}return{id:d.id,uid:o.uid,t:o.t,x:o.x,q}}).filter(x=>x.t&&x.x&&x.q.length>=3);
   if(scr==='cue')cuePicker();if(scr==='par'&&parOK&&!($('#cx')&&$('#cx').value))parInner()},e=>console.warn(e)))}
 function afterSync(){const m=(localStorage.getItem('mcp')||'').split('|');if(m[0]===fbU.uid&&R.names.includes(m[1]))enter(m[1]);else players()}
@@ -606,7 +621,7 @@ async function initApp(){scr='wait';document.querySelector('header').style.displ
  FB.au.onAuthStateChanged(FB.auth,u=>{
   if(u){fbU=u;scr='wait';document.querySelector('header').style.display='none';$('#dock').style.display='none';main.innerHTML='<div class="card" style="margin-top:12vh">Cargando tu cuenta…</div>';startSync(u.uid)}
   else{stopSync();fbU=null;R.cur=null;R.names=[];R.d={};R.pin='';R.cs=[];parOK=false;D=newD();lm='in';showLoginC('in')}});
- document.addEventListener('visibilitychange',()=>{if(document.hidden)pushNow()})}
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)pushNow()});window.addEventListener('pagehide',()=>{saveLocal();pushNow()});window.addEventListener('beforeunload',()=>{saveLocal();pushNow()})}
 let cueSel=-1,cueGo=false;
 function cuePicker(){scr='cue';cur=null;document.onkeydown=null;chrome();const AL=S.concat(R.cs||[]);
  main.innerHTML=`<div class="cl"><button class="ct" onclick="playCue(-1)"><span class="e">🎲</span><span>Un cuento al azar<small>¡Sorpresa!</small></span></button>${AL.map((s,i)=>`<button class="ct" onclick="playCue(${i})"><span class="e">📖</span><span>${s.t}${i>=S.length?'<small>Cuento añadido</small>':''}</span></button>`).join('')}</div>`;window.scrollTo(0,0)}
@@ -622,9 +637,9 @@ function parInner(){const wk=rep(7,(_,i)=>{const d=new Date(Date.now()-(6-i)*864
   $('#mu').onclick=()=>{D.mute=D.mute?0:1;save();parInner()};$('#cp').onclick=()=>{R.pin='';savePin();save();parOK=false;gate()};$('#rv').onclick=()=>go('rep');
  $('#cs').onclick=()=>{const t=$('#ct').value.trim(),x=$('#cx').value.trim();if(t.length<2){toast('Pon un título',false);return}if(x.length<200){toast('El cuento es muy corto (mínimo 200 letras)',false);return}if(x.length>2500){toast('Es demasiado largo (máximo 2500 letras)',false);return}const q=mkQ(t,x);if(q.length<3){toast('No he podido crear preguntas. Prueba con un texto más largo.',false);return}const o={t:esc(t),x:esc(x).replace(/\n/g,'<br>'),q};if(cloud){FB.fs.addDoc(FB.fs.collection(FB.db,'stories'),{uid:fbU.uid,t:o.t,x:o.x,qj:JSON.stringify(q),at:Date.now()}).then(()=>toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)).catch(()=>toast('No se pudo guardar el cuento',false))}else{(R.cs=R.cs||[]).push(o);save();toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)}parInner()};
  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=function(){if(this.dataset.c){const s=R.cs[+this.dataset.d];if(cloud){if(s&&s.id)FB.fs.deleteDoc(FB.fs.doc(FB.db,'stories',s.id)).catch(()=>toast('No se pudo borrar',false))}else{R.cs.splice(+this.dataset.d,1);save()}parInner()}else{this.dataset.c=1;this.textContent='¿Borrar?'}});
-   $('#dp').onclick=function(){if(this.dataset.c){const n=R.cur;R.names=R.names.filter(x=>x!==n);delete R.d[n];delete R.u[n];R.cur=null;R.keep='';D=newD();if(cloud){if(fbU)FB.fs.deleteDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',n)).catch(()=>{})}else save();toast('Usuario eliminado',true);cloud?players():showLogin('in')}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}};
+   $('#dp').onclick=function(){if(this.dataset.c){const n=R.cur;R.names=R.names.filter(x=>x!==n);delete R.d[n];delete R.u[n];R.cur=null;R.keep='';D=newD();saveLocal();if(cloud){if(fbU)FB.fs.deleteDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',n)).catch(()=>{})}toast('Usuario eliminado',true);cloud?players():showLogin('in')}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}};
   $('#ib').onclick=()=>{try{const o=JSON.parse(decodeURIComponent(escape(atob($('#im').value.trim()))));if(typeof o.score!=='number'||!Array.isArray(o.hist))throw 0;D=Object.assign(newD(),o);save();$('#score').textContent=D.score;toast('Progreso importado ✅',true);parInner()}catch(e){toast('Código no válido',false)}};
-  $('#rs').onclick=function(){if(this.dataset.c){D=newD();save();$('#score').textContent=0;parInner()}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}}}
+  $('#rs').onclick=function(){if(this.dataset.c){D=newD();save();if(cloud)pushNow();$('#score').textContent=0;parInner()}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}}}
 const logo=sz=>`<svg viewBox="0 0 48 48" width="${sz}" height="${sz}" role="img" aria-label="Mi cuaderno"><defs><linearGradient id="lg${sz}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b6cff"/><stop offset="1" stop-color="#12a594"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#lg${sz})"/><path d="M24 19C19 15 13 15 9 17V37C13 35 19 35 24 39Z" fill="#fff"/><path d="M24 19C29 15 35 15 39 17V37C35 35 29 35 24 39Z" fill="#fff" opacity=".88"/><path d="M24 19V39" stroke="#5b6cff" stroke-width="1.4"/><polygon points="37,3.5 38.4,7 42.2,7.3 39.3,9.8 40.2,13.5 37,11.5 33.8,13.5 34.7,9.8 31.8,7.3 35.6,7" fill="#ffd166"/></svg>`;
 async function hsh(p,u){const s=u.toLowerCase()+'|'+p+'|mc3';try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return'x'+h}}
 let lm='in';
@@ -643,7 +658,7 @@ async function doLogin(){const raw=$('#lu').value.trim().replace(/[<>&"']/g,''),
  if(!R.u[ex]){if(p.length<4){toast('Crea una contraseña de al menos 4 caracteres',false);return}R.u[ex]=h;return enter(ex,$('#lk').checked)}
  if(h!==R.u[ex]){toast('Contraseña incorrecta',false);return}
  enter(ex,$('#lk').checked)}
-function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}save();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
+function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}save();if(cloud)pushNow();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
 function profiles(){if(cloud)return profilesC();scr='prof';cur=null;chrome();main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted)">⭐ ${D.score} puntos</p><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;$('#lg').onclick=()=>{save();R.cur=null;R.keep='';save();showLogin('in')}}
 document.querySelectorAll('#dock button').forEach(b=>b.onclick=()=>go(b.dataset.s));
 const TH=['auto','light','dark'],TI={auto:'🌓',light:'☀️',dark:'🌙'};
