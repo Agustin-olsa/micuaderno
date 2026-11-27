@@ -6,7 +6,7 @@
 <title>Mi cuaderno · 2º de primaria</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef1f8;--card:#fff;--text:#1e2440;--muted:#6a7390;--line:#e3e7f2;--m:#5b6cff;--i:#12a594;--l:#f0900f;--r:#9b5de5;--ok:#22a45d;--bad:#e5484d;--sh:rgba(30,36,64,.09);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#eef1f8;--card:#fff;--text:#1e2440;--muted:#6a7390;--line:#e3e7f2;--m:#5b6cff;--i:#12a594;--l:#f0900f;--r:#9b5de5;--k:#d6457f;--ok:#22a45d;--bad:#e5484d;--sh:rgba(30,36,64,.09);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1226;--card:#1b1f40;--text:#eef0ff;--muted:#a3abd0;--line:#2d3360;--sh:rgba(0,0,0,.4);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0f1226;--card:#1b1f40;--text:#eef0ff;--muted:#a3abd0;--line:#2d3360;--sh:rgba(0,0,0,.4);color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
@@ -64,6 +64,8 @@ textarea,input{width:100%;font:inherit;font-size:14px;border:2px solid var(--lin
 .lgf input{margin:5px 0;text-align:center;font-size:17px}.lnk{background:none;border:0;color:var(--m);font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin:6px 8px}#logo{display:flex;flex:none}
 #ft{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:12.5px;line-height:1.7}#ft b{color:var(--text);font-weight:800}#ft .lg{display:flex;justify-content:center;margin-bottom:8px}#ft .lg img{display:block;border-radius:50%;box-shadow:0 3px 12px var(--sh)}
 .cl{display:grid;gap:10px}.ct{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:0;border-left:6px solid var(--l);border-radius:16px;padding:12px 16px;font:inherit;font-weight:800;font-size:18px;color:var(--text);box-shadow:0 2px 8px var(--sh);cursor:pointer}.ct .e{width:44px;height:44px;border-radius:12px;background:color-mix(in srgb,var(--l) 16%,transparent);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}.ct small{display:block;font-weight:600;color:var(--muted);font-size:13px}.ct:active{transform:scale(.98)}
+@media print{header,#dock,#ft,.noprint,#toast{display:none!important}body{background:#fff!important;color:#000!important}.card{box-shadow:none!important;border:1px solid #ccc}#app{padding:0}}
+.shp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.shp>div{background:var(--card);border-radius:18px;padding:12px 6px;text-align:center;box-shadow:0 2px 8px var(--sh);font-size:13px;font-weight:700}.shp>div>span{font-size:38px;display:block;line-height:1.2}.shp .lk{filter:grayscale(1);opacity:.35}.shp .chip{margin-top:6px;padding:6px 10px;font-size:14px}.tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto}.tabs button{flex:none;border:0;border-radius:12px;padding:8px 12px;background:var(--card);font:inherit;font-weight:700;font-size:14px;color:var(--text);cursor:pointer}.tabs button.on{background:var(--m);color:#fff}.kp{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}.kp div{background:var(--bg);border-radius:12px;padding:8px;text-align:center;font-size:12px;color:var(--muted)}.kp b{display:block;font-size:20px;color:var(--text)}
 </style>
 </head>
 <body>
@@ -266,15 +268,199 @@ const ANT_X={alto:['pequeño','grande'],bajo:['pequeño','grande'],grande:['alto
 A.ant.pool=()=>shuffle(AN.flatMap(([a,b])=>[[a,b],[b,a]])).slice(0,10).map(([a,b])=>{const ta=ant_t(a),all=AN.flat().filter(x=>x!==a&&x!==b&&!(ANT_X[a]||[]).includes(x)&&(ta==='n'?ant_t(x)==='a':ant_t(x)===ta));return mc(`<div class="txt">Lo contrario de <b>${a}</b> es…</div>`,b,shuffle(all).slice(0,3),{lb:a})});
 const OP_X=[['up','down','high','low'],['hard','soft','easy','difficult'],['good','bad','right','wrong','yes','no']];
 A.opo.pool=()=>shuffle(OP.flatMap(([a,b])=>[[a,b],[b,a]])).slice(0,10).map(([a,b])=>{const g=OP_X.find(x=>x.includes(a))||[],all=OP.flat().filter(x=>x!==a&&x!==b&&!g.includes(x));return mc(`<div class="txt">Lo contrario de <b>${a}</b> es…</div>`,b,shuffle(all).slice(0,3),{lb:a})});
-const G={m:['Matemáticas','var(--m)'],i:['Inglés','var(--i)'],l:['Lengua','var(--l)'],x:['Repaso','var(--r)']};
-const MED=[['🌱','Primera partida',()=>D.hist.length>=1],['🎯','10 aciertos seguidos',()=>D.best>=10],['💯','Ronda perfecta',()=>D.hist.some(h=>h.ok===h.n&&h.n>=4)],['📅','Juega 5 días distintos',()=>Object.keys(D.days).length>=5],['🧠','Sube a nivel 3',()=>Object.values(D.lv).some(x=>x>=3)],['🔥','3 días seguidos',()=>streak()>=3],['🏆','7 días seguidos',()=>streak()>=7],['🎓','Las 3 asignaturas',()=>new Set(D.hist.map(h=>A[h.k].g).filter(g=>g!=='x')).size>=3],['🎁','Meta diaria',()=>D.gh>0],['👑','Llega al nivel 10',()=>Object.values(D.lv).some(x=>x>=10)]];
+
+/* ===== Conocimiento del medio ===== */
+const kb=s=>s.trim().split('\n').map(l=>l.split('|'));
+const KB={
+cuer:kb(`¿Qué órgano bombea la sangre por el cuerpo?|El corazón|Los pulmones|El estómago|El cerebro
+¿Con qué órganos respiramos?|Con los pulmones|Con el corazón|Con el estómago|Con los riñones
+¿Qué órgano controla todo el cuerpo y nos permite pensar?|El cerebro|El corazón|El hígado|El pulmón
+¿Dónde se digiere la comida?|En el estómago|En los pulmones|En el cerebro|En el corazón
+¿Qué nos sostiene y da forma al cuerpo?|El esqueleto|La piel|La sangre|El pelo
+¿Para qué sirven los músculos?|Para mover el cuerpo|Para oler|Para ver|Para oír
+¿Cuáles son las tres partes principales del cuerpo?|Cabeza, tronco y extremidades|Solo cabeza y piernas|Brazos y orejas|Tronco y cola
+¿Qué cubre nuestro cuerpo y lo protege?|La piel|Los huesos|El estómago|El corazón
+¿Para qué sirven los dientes?|Para masticar los alimentos|Para respirar|Para oír|Para ver
+¿Qué parte del cuerpo une la cabeza con el tronco?|El cuello|La cintura|El codo|La rodilla
+¿Qué parte del cuerpo dobla la pierna por la mitad?|La rodilla|El codo|La muñeca|El cuello
+¿Qué parte del cuerpo dobla el brazo por la mitad?|El codo|La rodilla|El tobillo|El cuello
+¿Qué es el esqueleto?|El conjunto de todos los huesos|Los músculos|La piel|La sangre
+¿Qué hueso protege nuestro cerebro?|El cráneo|Las costillas|El fémur|La columna
+¿Qué protegen las costillas?|El corazón y los pulmones|El estómago|Los pies|Las manos
+¿Por dónde circula la sangre?|Por las venas y las arterias|Por el estómago|Por los huesos|Por el pelo`),
+sent:kb(`¿Con qué sentido vemos los colores?|La vista|El oído|El olfato|El gusto
+¿Qué órgano usamos para oler?|La nariz|Los ojos|Las orejas|La lengua
+¿Con qué órgano oímos los sonidos?|Con las orejas|Con los ojos|Con la nariz|Con la lengua
+¿Qué parte del cuerpo nos permite saborear?|La lengua|La nariz|Los ojos|Las orejas
+¿Con qué sentido notamos si algo está frío o caliente?|El tacto|El oído|La vista|El olfato
+¿Con qué sentido distinguimos el olor de un perfume?|El olfato|El gusto|El oído|La vista
+¿Qué sentido usamos para escuchar música?|El oído|El tacto|La vista|El olfato
+¿Cuántos sentidos tenemos?|Cinco|Tres|Cuatro|Seis
+¿Con qué sentido notamos que un limón es ácido?|El gusto|La vista|El oído|El tacto
+¿Qué órgano usamos para ver?|Los ojos|Las orejas|La nariz|La lengua
+¿Con qué sentido sabemos que alguien llama a la puerta?|El oído|La vista|El gusto|El olfato
+¿Qué sentido usamos para leer un cuento?|La vista|El oído|El gusto|El olfato
+¿Qué órgano es el principal del tacto?|La piel|Los ojos|La lengua|Las orejas`),
+anim:kb(`¿Cuál de estos animales es vertebrado?|El perro|La mariposa|El caracol|La araña
+¿Cuál de estos animales es invertebrado?|La mariposa|El perro|El pez|El pájaro
+Los animales que solo comen plantas se llaman…|herbívoros|carnívoros|omnívoros|nadadores
+Los animales que comen carne se llaman…|carnívoros|herbívoros|omnívoros|voladores
+Los animales que comen plantas y carne se llaman…|omnívoros|herbívoros|carnívoros|insectos
+¿Cuál de estos animales es herbívoro?|La vaca|El león|El tiburón|El águila
+¿Cuál de estos animales es carnívoro?|El león|La vaca|La oveja|El conejo
+¿Cuál de estos animales nace de un huevo?|La gallina|El perro|El gato|El caballo
+¿Cuál de estos animales es un mamífero?|El delfín|El tiburón|La rana|El águila
+¿Qué animal tiene el cuerpo cubierto de plumas?|El águila|El gato|El pez|La rana
+¿Qué animal tiene el cuerpo cubierto de escamas?|El pez|El perro|El pájaro|El conejo
+¿Dónde viven los peces?|En el agua|En los árboles|En el desierto|En el cielo
+¿Cuál es un animal doméstico?|El gato|El lobo|El león|El tigre
+¿Cuál es un animal salvaje?|El lobo|El perro|La gallina|La oveja
+¿Qué animal pasa el invierno durmiendo (hiberna)?|El oso|El perro|La gallina|El delfín
+¿Cuántas patas tiene un insecto?|Seis|Cuatro|Ocho|Dos
+¿Cuántas patas tiene una araña?|Ocho|Seis|Cuatro|Diez`),
+plan:kb(`¿Qué parte de la planta la sujeta a la tierra y absorbe el agua?|La raíz|La hoja|El fruto|La flor
+¿Qué parte de la planta sostiene todo y lleva el agua hacia arriba?|El tallo|La raíz|La flor|El fruto
+¿Qué parte de la planta es verde y recibe la luz del sol?|La hoja|La raíz|El fruto|El tallo
+¿Qué parte de la planta guarda las semillas?|El fruto|La raíz|La hoja|El tallo
+¿Qué parte de la planta tiene pétalos de colores?|La flor|La raíz|La hoja|El tallo
+¿Qué necesitan las plantas para vivir?|Agua, luz y aire|Solo tierra|Solo viento|Pan y leche
+¿De dónde nace una nueva planta?|De una semilla|De una piedra|De una nube|De un trozo de papel
+¿Cuál de estas plantas es un árbol?|El pino|La rosa|El trigo|La margarita
+¿Cuál de estas plantas da frutos que comemos?|El manzano|La rosa|La hierba|El helecho
+¿Qué hacemos para que una planta crezca sana?|Regarla y darle luz|Taparla con una caja|Dejarla sin agua|Pisarla
+¿Qué planta tiene espinas?|El cactus|La lechuga|La margarita|El trigo
+¿Con qué planta se hace el pan?|Con el trigo|Con el tomate|Con la patata|Con la zanahoria`),
+esta:kb(`¿Cuántas estaciones tiene el año?|Cuatro|Tres|Cinco|Seis
+¿Qué estación viene después del invierno?|La primavera|El verano|El otoño|El invierno
+¿Qué estación viene después del verano?|El otoño|El invierno|La primavera|El verano
+¿En qué estación hace más calor?|En verano|En invierno|En otoño|En primavera
+¿En qué estación hace más frío?|En invierno|En verano|En primavera|En otoño
+¿En qué estación caen las hojas de muchos árboles?|En otoño|En verano|En primavera|En invierno
+¿Cuántos meses tiene un año?|Doce|Diez|Trece|Once
+¿Cuántos días tiene una semana?|Siete|Cinco|Seis|Ocho
+¿Qué usamos cuando llueve?|El paraguas|Las gafas de sol|La bufanda|El bañador
+¿Qué ropa nos ponemos cuando hace mucho frío?|El abrigo|El bañador|Las sandalias|La camiseta de tirantes
+¿Cuál es el primer mes del año?|Enero|Diciembre|Marzo|Septiembre
+¿Qué aparato mide la temperatura?|El termómetro|El reloj|La regla|La balanza
+¿Qué aparece en el cielo cuando llueve y sale el sol?|El arcoíris|La nieve|La niebla|El granizo`),
+higi:kb(`¿Cuándo debemos lavarnos los dientes?|Después de cada comida|Una vez a la semana|Solo cuando duelen|Nunca
+¿Cuál de estos alimentos es saludable?|La fruta|Las golosinas|Las patatas fritas|Los refrescos
+¿Qué debemos hacer antes de comer?|Lavarnos las manos|Correr|Tirarnos al suelo|Ver la tele
+¿Qué es lo mejor para beber cuando tenemos sed?|El agua|Los refrescos|Los batidos de chocolate|Las bebidas energéticas
+¿Cuál es la comida más importante para empezar el día?|El desayuno|La merienda|La cena|El postre
+¿Qué alimentos nos dan vitaminas?|Las frutas y las verduras|Las golosinas|Los refrescos|Las patatas fritas
+¿Qué alimento nos da la vaca?|La leche|El pan|El aceite|La miel
+¿Cuántas horas necesita dormir un niño de 7 años, más o menos?|Unas diez horas|Unas cuatro horas|Unas dos horas|Unas quince horas
+¿Qué hacemos para estar sanos y fuertes?|Hacer deporte|Comer solo dulces|No dormir|Ver la tele todo el día
+¿Cada cuánto debemos ducharnos?|Todos los días|Una vez al año|Nunca|Solo en verano
+¿Qué debemos hacer al toser?|Taparnos con el codo|Toser a la cara de otros|Escupir|Gritar
+¿Qué nos protege del sol?|La crema solar|El jabón|El champú|La colonia
+¿Qué alimento es de origen vegetal?|La lechuga|El huevo|La carne|El queso`),
+entor:kb(`¿Quién apaga los incendios?|El bombero|El cartero|El panadero|El maestro
+¿Quién cuida de los enfermos en el hospital?|El médico|El bombero|El piloto|El cartero
+¿Quién nos enseña en el colegio?|El maestro|El bombero|El panadero|El cartero
+¿Quién conduce un autobús?|El conductor|El piloto|El panadero|El cartero
+¿Quién hace el pan?|El panadero|El cartero|El médico|El bombero
+¿Quién reparte las cartas?|El cartero|El panadero|El médico|El piloto
+¿Quién cuida de la seguridad en las calles?|El policía|El panadero|El cartero|El pintor
+¿Quién conduce un avión?|El piloto|El conductor de autobús|El bombero|El cartero
+¿De qué color es el semáforo cuando los peatones pueden cruzar?|Verde|Rojo|Amarillo|Azul
+¿Por dónde debemos cruzar la calle?|Por el paso de cebra|Por cualquier sitio|Corriendo entre los coches|Por la mitad de la calle
+¿Qué debemos abrocharnos siempre en el coche?|El cinturón de seguridad|Los cordones|La chaqueta|El abrigo
+¿Cuál de estos es un transporte aéreo?|El avión|El barco|El tren|El autobús
+¿Cuál de estos es un transporte marítimo?|El barco|El avión|El tren|La bicicleta
+¿Dónde compramos las medicinas?|En la farmacia|En la panadería|En la biblioteca|En la frutería
+¿Dónde compramos el pan?|En la panadería|En la farmacia|En la biblioteca|En la zapatería
+¿Dónde podemos pedir libros prestados?|En la biblioteca|En la panadería|En la farmacia|En la pescadería
+¿A qué número llamamos en una emergencia en España?|112|100|911|012
+¿Dónde suele haber más edificios altos y más coches?|En la ciudad|En el pueblo|En el bosque|En el mar`)
+};
+const kPool=k=>()=>shuffle(KB[k]).slice(0,10).map(([q,r,...w])=>mc(`<div class="txt">${q}</div>`,r,w,{lb:q.slice(0,30)}));
+Object.assign(A,{
+ cuer:{g:'c',n:'El cuerpo humano',e:'🦴',pool:kPool('cuer'),round:cRound},
+ sent:{g:'c',n:'Los sentidos',e:'👀',pool:kPool('sent'),round:cRound},
+ anim:{g:'c',n:'Los animales',e:'🦁',pool:kPool('anim'),round:cRound},
+ plan:{g:'c',n:'Las plantas',e:'🌱',pool:kPool('plan'),round:cRound},
+ esta:{g:'c',n:'Estaciones y tiempo',e:'🌦️',pool:kPool('esta'),round:cRound},
+ higi:{g:'c',n:'Salud y alimentación',e:'🍎',pool:kPool('higi'),round:cRound},
+ entor:{g:'c',n:'El entorno',e:'🏙️',pool:kPool('entor'),round:cRound}
+});
+
+/* ===== Reto del día ===== */
+const MK=['mates','tablas','prob','serie','comp','reloj','c10','din','dec','pim'],IK=['pal','col','num','tr','opo','dm'],LK=['orto','plu','sil','fra','ant','art','rim','cla'],CK=['cuer','sent','anim','plan','esta','higi','entor'];
+function retoKeys(){const t=T(),h=[...t].reduce((s,c)=>(s*31+c.charCodeAt(0))>>>0,7),B=h%2?LK:CK;return[MK[h%MK.length],IK[(h>>3)%IK.length],B[(h>>5)%B.length]]}
+function rt(){const t=T();if(!D.rt||D.rt.d!==t)D.rt={d:t,done:[0,0,0]};return D.rt}
+function retoW(){const r=rt(),n=r.done.filter(Boolean).length,S=sh();return`<button class="w big" onclick="go('reto')"><span style="font-size:40px">🎯</span><div><small>Reto del día</small><br><b>${n}/3 completados</b><br><small>${n===3?'¡Hecho por hoy! 🎉':'+10 por reto y +20 si haces los 3'}</small></div></button><button class="w" onclick="go('shop')"><small>Tienda</small><b>🛍️ ${S.own.length}</b></button><button class="w" onclick="shopTab='c';go('shop')"><small>Mi colección</small><b>🧸 ${S.own.filter(x=>x[0]==='s').length}/${STK.length}</b></button>`}
+function retoScreen(){const r=rt(),ks=retoKeys(),n=r.done.filter(Boolean).length;
+ main.innerHTML=`<div class="card"><div style="font-size:44px">🎯</div><b style="font-size:20px">Reto del día</b><p style="color:var(--muted);margin:6px 0 0;font-size:14px">Completa 3 minijuegos. Cada uno da +10 puntos extra y, si haces los 3, +20 más.</p><div class="bar" style="--a:var(--ok);margin-top:12px"><i style="width:${n/3*100}%"></i></div></div><div class="cl">${ks.map((k,j)=>`<button class="ct" style="--l:${G[A[k].g][1]}" data-r="${j}"><span class="e">${A[k].e}</span><span>${A[k].n}<small>${G[A[k].g][0]} · ${r.done[j]?'¡Hecho! ✓':'+10 puntos'}</small></span></button>`).join('')}</div>${n===3?'<p style="text-align:center;margin-top:14px">🎉 ¡Reto de hoy completado! Vuelve mañana.</p>':''}`;
+ document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const j=+b.dataset.r;if(r.done[j]){toast('Ya completaste este minijuego hoy',true);return}startReto(j)})}
+function startReto(j){const k=retoKeys()[j],a=A[k],items=a.pool().slice(0,5);cur={k,r:items.map(a.round),items,i:-1,ok:0,n:0,pts:0,run:0,locked:false,reto:j};scr='play';chrome();next()}
+function endReto(){const j=cur.reto,k=cur.k,r=rt();r.done[j]=1;setScore(10);let extra='';const all=r.done.every(Boolean);
+ if(all){setScore(20);D.rtDone=(D.rtDone||0)+1;extra='<p>🏆 ¡Has completado los 3 retos! <b>+20</b> extra</p>'}
+ const h={t:Date.now(),k,ok:cur.ok,n:cur.n,p:cur.pts};D.hist.push(h);D.hist=D.hist.slice(-300);D.days[T()]=D.days[T()]||0;if(D.days[T()]>=GOAL)D.gh=1;
+ const nw=MED.filter((m,i)=>m[2]()&&!D.med.includes(i));nw.forEach(m=>D.med.push(MED.indexOf(m)));const pn=pm()-(D.pm||0);D.pm=pm();save();scr='end';chrome();
+ main.innerHTML=`<div class="card"><div style="font-size:48px">🎯</div><div class="big-n">${h.ok} / ${h.n}</div><p>Reto ${j+1} completado: <b>+10</b> puntos extra</p>${extra}${nw.map(m=>`<p>🎉 ¡Medalla nueva! ${m[0]} ${m[1]}</p>`).join('')}${pn>0?`<p>🎉 ¡Medalla de puntos nueva! ${PI[(pm()-1)%7]}</p>`:''}<button class="big" onclick="go('reto')">${all?'Ver retos':'Siguiente'}</button><button class="big s" onclick="go('home')">Inicio</button></div>`}
+
+/* ===== Tienda y colección ===== */
+const STK=['🦄','🐉','🦖','🚀','🛸','🎸','⚽','🏀','🎨','🏰','🌈','🍕','🍦','🦋','🐬','🦁','🐼','🐙','🧸','🎮','🪁','🏆','💎','🌟'];
+const AVA=['🐱','🐶','🦊','🐼','🐯','🦁','🐸','🐵','🐰','🦄','🤖','👽'];
+const BGS=[['sky','Cielo','#4aa3ff'],['mint','Menta','#2fc99a'],['sunset','Atardecer','#ff8a5b'],['lav','Lavanda','#9b7bff'],['rose','Rosa','#ff6fa5'],['sun','Sol','#ffc83d']];
+const PRC={s:i=>i<8?30:i<16?60:100,a:()=>50,b:()=>120};
+let shopTab='s',repN=null;
+const sh=()=>D.shop=D.shop||{own:[],av:'',bg:''};
+function applyBg(){const b=R.cur&&D.shop&&D.shop.bg?BGS.find(x=>x[0]===D.shop.bg):null;document.body.style.background=b?`linear-gradient(180deg,color-mix(in srgb,${b[2]} 30%,var(--bg)),var(--bg) 65%) fixed`:''}
+function buy(id,p){const S=sh();if(S.own.includes(id))return;if(D.score<p){toast(`Te faltan ${p-D.score} puntos`,false);return}D.tot=Math.max(D.tot||0,D.score);D.score-=p;S.own.push(id);save();$('#score').textContent=D.score;beep(1);toast('¡Comprado! 🎉',true);shopScreen()}
+function shopScreen(){const S=sh(),own=S.own;
+ const tabs=[['s','Pegatinas'],['a','Avatares'],['b','Fondos'],['c','Mi colección']];let b='';
+ if(shopTab==='s')b=STK.map((e,i)=>{const id='s:'+e,has=own.includes(id);return`<div><span>${e}</span>${has?'Tuya ✓':`<button class="chip" data-b="${id}" data-p="${PRC.s(i)}">⭐ ${PRC.s(i)}</button>`}</div>`}).join('');
+ else if(shopTab==='a')b=`<div><span>🙂</span><button class="chip" data-e="av:">${S.av===''?'En uso':'Usar'}</button></div>`+AVA.map(e=>{const id='a:'+e,has=own.includes(id);return`<div><span>${e}</span>${has?`<button class="chip" data-e="av:${e}">${S.av===e?'En uso':'Usar'}</button>`:`<button class="chip" data-b="${id}" data-p="${PRC.a()}">⭐ ${PRC.a()}</button>`}</div>`}).join('');
+ else if(shopTab==='b')b=`<div><span style="background:var(--bg);border-radius:50%;display:inline-block;width:44px;height:44px"></span><br>Normal<br><button class="chip" data-e="bg:">${S.bg===''?'En uso':'Usar'}</button></div>`+BGS.map(x=>{const id='b:'+x[0],has=own.includes(id);return`<div><span style="background:${x[2]};border-radius:50%;display:inline-block;width:44px;height:44px"></span><br>${x[1]}<br>${has?`<button class="chip" data-e="bg:${x[0]}">${S.bg===x[0]?'En uso':'Usar'}</button>`:`<button class="chip" data-b="${id}" data-p="${PRC.b()}">⭐ ${PRC.b()}</button>`}</div>`}).join('');
+ else{const n=STK.filter(e=>own.includes('s:'+e)).length;b=STK.map(e=>`<div class="${own.includes('s:'+e)?'':'lk'}"><span>${own.includes('s:'+e)?e:'❓'}</span></div>`).join('')}
+ main.innerHTML=`<div class="card" style="padding:12px"><small style="color:var(--muted)">Tus puntos</small><div class="big-n" style="font-size:28px">⭐ ${D.score}</div></div><div class="tabs">${tabs.map(x=>`<button class="${shopTab===x[0]?'on':''}" data-t="${x[0]}">${x[1]}</button>`).join('')}</div>${shopTab==='c'?`<p style="color:var(--muted);font-size:14px;margin:0 0 10px">Pegatinas conseguidas: ${STK.filter(e=>own.includes('s:'+e)).length} de ${STK.length}</p>`:''}<div class="shp">${b}</div>`;
+ document.querySelectorAll('[data-t]').forEach(x=>x.onclick=()=>{shopTab=x.dataset.t;shopScreen()});
+ document.querySelectorAll('[data-b]').forEach(x=>x.onclick=()=>buy(x.dataset.b,+x.dataset.p));
+ document.querySelectorAll('[data-e]').forEach(x=>x.onclick=()=>{const[k,v]=x.dataset.e.split(':');if(k==='av')sh().av=v;else sh().bg=v;save();applyBg();chrome();shopScreen()})}
+
+/* ===== Informe semanal (PDF) ===== */
+const stk=dd=>{let n=0;const t=Date.now();for(let i=0;i<400;i++){const k=new Date(t-i*864e5).toLocaleDateString('sv');if(dd[k]!==undefined)n++;else if(i>0)break}return n};
+function repData(n){const d=R.d[n]||D,now=Date.now(),H=d.hist||[];
+ const days=rep(7,(_,i)=>{const dt=new Date(now-(6-i)*864e5),k=dt.toLocaleDateString('sv');return{l:dt.toLocaleDateString('es',{weekday:'short'}).replace('.',''),k,p:(d.days||{})[k]||0}});
+ const hs=H.filter(h=>h.t>=now-7*864e5),ph=H.filter(h=>h.t<now-7*864e5&&h.t>=now-14*864e5);
+ const acc=a=>{const o=a.reduce((s,h)=>s+h.ok,0),q=a.reduce((s,h)=>s+h.n,0);return q?Math.round(o/q*100):null};
+ const by={};hs.forEach(h=>{(by[h.k]=by[h.k]||[]).push(h)});
+ const rows=Object.keys(by).map(k=>({n:A[k]?A[k].n:k,g:A[k]?G[A[k].g][0]:'',c:by[k].length,a:acc(by[k]),lv:A[k]&&A[k].ad?((d.lv||{})[k]||1):null}));
+ const fails=Object.entries(d.fc||{}).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,c])=>({a:(A[k.split('|')[0]]||{}).n||'',l:k.split('|')[1],c}));
+ return{n,days,pts:days.reduce((s,x)=>s+x.p,0),played:days.filter(x=>x.p>0).length,games:hs.length,a:acc(hs),pa:acc(ph),rows,fails,score:d.score||0,streak:stk(d.days||{}),med:(d.med||[]).length}}
+const trend=r=>r.a===null||r.pa===null?'':r.a>r.pa?`Mejora: ${r.a-r.pa} puntos más de aciertos que la semana anterior.`:r.a<r.pa?`Aciertos ${r.pa-r.a} puntos por debajo de la semana anterior.`:'Aciertos iguales que la semana anterior.';
+function repHtml(r){const mx=Math.max(10,...r.days.map(x=>x.p));
+ return`<h3 style="margin:0">Informe semanal · ${esc(r.n)}</h3><p style="color:var(--muted);margin:2px 0 8px;font-size:14px">${r.days[0].k} a ${r.days[6].k}</p><div class="kp"><div><b>${r.pts}</b>Puntos de la semana</div><div><b>${r.played}/7</b>Días jugados</div><div><b>${r.streak}</b>Racha (días)</div><div><b>${r.games}</b>Partidas</div><div><b>${r.a===null?'-':r.a+'%'}</b>Aciertos</div><div><b>${r.score}</b>Puntos ahora</div></div><div class="chart">${r.days.map(x=>`<div title="${x.p}" style="height:${Math.max(4,x.p/mx*100)}%;background:var(--m)"></div>`).join('')}</div><div style="display:flex;gap:6px;font-size:12px;color:var(--muted)">${r.days.map(x=>`<span style="flex:1;text-align:center">${x.l}<br>${x.p}</span>`).join('')}</div><p style="margin:12px 0 4px;font-size:14px"><b>${trend(r)||'Aún no hay datos de la semana anterior para comparar.'}</b></p>${r.rows.length?`<div style="margin-top:8px">${r.rows.map(x=>`<div class="row"><div>${x.n}<small>${x.g}${x.lv?' · nivel '+x.lv:''}</small></div><b>${x.c} · ${x.a===null?'-':x.a+'%'}</b></div>`).join('')}</div>`:'<p style="color:var(--muted)">Esta semana no hay partidas.</p>'}<p style="margin:12px 0 4px"><b>Lo que más le cuesta (acumulado)</b></p>${r.fails.length?r.fails.map(f=>`<div class="row"><div>${f.l}<small>${f.a}</small></div><b>×${f.c}</b></div>`).join(''):'<p style="color:var(--muted)">Todavía sin fallos 🎉</p>'}`}
+const pdfS=s=>String(s).replace(/−/g,'-').replace(/…/g,'...').replace(/€/g,' EUR').replace(/×/g,'x').replace(/[^\x20-\xFF]/g,'');
+async function loadPdf(){if(window.jspdf)return window.jspdf;await new Promise((ok,ko)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=ok;s.onerror=ko;document.head.appendChild(s)});return window.jspdf}
+async function genPDF(r){const J=await loadPdf(),doc=new J.jsPDF({unit:'mm',format:'a4'}),S=pdfS,foot=()=>{doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(140,140,140);doc.text(S('© '+new Date().getFullYear()+' Agustín O.S. · Mi cuaderno, 2º de primaria'),105,290,{align:'center'})};
+ doc.setFillColor(91,108,255);doc.rect(0,0,210,34,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text('Mi cuaderno · Informe semanal',15,16);doc.setFont('helvetica','normal');doc.setFontSize(11);doc.text(S(`Jugador: ${r.n}   ·   del ${r.days[0].k} al ${r.days[6].k}`),15,26);
+ const K=[['Puntos de la semana',r.pts],['Días jugados',r.played+' de 7'],['Racha',r.streak+' días'],['Partidas',r.games],['Aciertos',r.a===null?'-':r.a+'%'],['Puntos ahora',r.score]];
+ K.forEach((x,i)=>{const cx=15+(i%3)*61,cy=42+Math.floor(i/3)*24;doc.setFillColor(238,241,248);doc.roundedRect(cx,cy,57,20,3,3,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(106,115,144);doc.text(S(x[0]),cx+4,cy+7);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(30,36,64);doc.text(S(String(x[1])),cx+4,cy+16)});
+ let y=98;doc.setFontSize(12);doc.setFont('helvetica','bold');doc.setTextColor(30,36,64);doc.text('Puntos por día',15,y);
+ const mx=Math.max(10,...r.days.map(x=>x.p));r.days.forEach((x,i)=>{const bh=Math.max(.8,x.p/mx*30),bx=18+i*26;doc.setFillColor(91,108,255);doc.rect(bx,y+38-bh,16,bh,'F');doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,36,64);doc.text(String(x.p),bx+8,y+36-bh,{align:'center'});doc.setTextColor(106,115,144);doc.text(S(x.l),bx+8,y+43,{align:'center'})});
+ y+=54;doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(30,36,64);doc.text(S(trend(r)||'Aún no hay datos de la semana anterior para comparar.'),15,y);y+=10;
+ const head=(t)=>{doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,36,64);doc.text(S(t),15,y);y+=6;doc.setFontSize(9);doc.setTextColor(106,115,144);doc.setFont('helvetica','normal')};
+ const line=(a,b,c)=>{if(y>278){foot();doc.addPage();y=20}doc.setTextColor(30,36,64);doc.setFontSize(10);doc.text(S(a),15,y);doc.setTextColor(106,115,144);doc.text(S(b),110,y);doc.setTextColor(30,36,64);doc.text(S(c),195,y,{align:'right'});doc.setDrawColor(227,231,242);doc.line(15,y+2,195,y+2);y+=7};
+ head('Actividades de la semana');if(r.rows.length)r.rows.forEach(x=>line(x.n,x.g+(x.lv?' · nivel '+x.lv:''),x.c+' partidas · '+(x.a===null?'-':x.a+'%')));else line('Sin partidas esta semana','','');
+ y+=6;if(y>262){foot();doc.addPage();y=20}head('Lo que más le cuesta (acumulado)');if(r.fails.length)r.fails.forEach(f=>line(f.l,f.a,'x'+f.c));else line('Todavía sin fallos','','');
+ foot();doc.save(S('Informe_'+r.n.replace(/[^A-Za-z0-9_-]/g,'')+'_'+T()+'.pdf'))}
+function repScreen(){if(!parOK)return go('par');repN=repN&&R.names.includes(repN)?repN:(R.cur||R.names[0]);const r=repData(repN);
+ main.innerHTML=`<div class="card noprint" style="text-align:left"><b>Informe semanal</b><p style="color:var(--muted);font-size:14px;margin:6px 0">Elige el jugador:</p><select id="rp" style="width:100%;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--text)">${R.names.map(n=>`<option ${n===repN?'selected':''}>${esc(n)}</option>`).join('')}</select><button class="big" id="rpdf" style="margin-left:0">📄 Descargar PDF</button><button class="big s" id="rpr">🖨️ Imprimir</button></div><div class="card" id="rep" style="text-align:left">${repHtml(r)}</div>`;
+ $('#rp').onchange=()=>{repN=$('#rp').value;repScreen()};$('#rpr').onclick=()=>window.print();
+ $('#rpdf').onclick=async()=>{try{await genPDF(repData(repN))}catch(e){console.warn(e);toast('No se pudo crear el PDF. Prueba con Imprimir.',false)}}}
+const G={m:['Matemáticas','var(--m)'],i:['Inglés','var(--i)'],l:['Lengua','var(--l)'],c:['Conocimiento del medio','var(--k)'],x:['Repaso','var(--r)']};
+const MED=[['🌱','Primera partida',()=>D.hist.length>=1],['🎯','10 aciertos seguidos',()=>D.best>=10],['💯','Ronda perfecta',()=>D.hist.some(h=>h.ok===h.n&&h.n>=4)],['📅','Juega 5 días distintos',()=>Object.keys(D.days).length>=5],['🧠','Sube a nivel 3',()=>Object.values(D.lv).some(x=>x>=3)],['🔥','3 días seguidos',()=>streak()>=3],['🏆','7 días seguidos',()=>streak()>=7],['🎓','Las 3 asignaturas',()=>new Set(D.hist.map(h=>A[h.k].g).filter(g=>g!=='x')).size>=3],['🎁','Meta diaria',()=>D.gh>0],['👑','Llega al nivel 10',()=>Object.values(D.lv).some(x=>x>=10)],['🎯','Reto del día completo',()=>(D.rtDone||0)>=1],['📆','7 retos del día',()=>(D.rtDone||0)>=7],['🛍️','Primera compra',()=>!!(D.shop&&D.shop.own&&D.shop.own.length)]];
 
 /* ---- flujo de juego ---- */
 function start(k){if(k==='cue'&&!cueGo){cuePicker();return}cueGo=false;const a=A[k];let r,items;
   if(k==='rev'){const src=[];items=[];Object.keys(D.err).forEach(kk=>{while((D.err[kk]||[]).length&&items.length<10){items.push(D.err[kk].shift());src.push(kk)}});if(!items.length){toast('¡No tienes errores que repasar! 🎉',true);return}r=items.map((it,j)=>A[src[j]].round(it));cur_srcs=src}else if(a.make){({r,items}=a.make())}else{items=a.pool();const rv=(D.err[k]||[]).splice(0,3);items=[...rv,...items].slice(0,Math.max(items.length,rv.length));r=items.map(a.round)}
   cur={k,r,items,srcs:k==='rev'?cur_srcs:null,i:-1,ok:0,n:0,pts:0,run:0,locked:false};scr='play';chrome();next()}
 function next(){cur.i++;cur.locked=false;document.onkeydown=null;
-  if(cur.i>=cur.r.length)return end();const a=A[cur.k],col=G[a.g][1];
+  if(cur.i>=cur.r.length)return cur.reto!==undefined?endReto():end();const a=A[cur.k],col=G[a.g][1];
   main.innerHTML=`<div class="bar" style="--a:${col}"><i style="width:${cur.i/cur.r.length*100}%"></i></div><div id="st" style="--a:${col}"></div>`;
   const ans=(ok,x)=>{if(cur.locked)return;cur.locked=true;cur.n++;setScore(ok?5:-2);beep(ok);
     if(ok){cur.ok++;cur.run++;D.best=Math.max(D.best,cur.run)}else{cur.run=0;const it=cur.items[cur.i],sk=(cur.srcs&&cur.srcs[cur.i])||cur.k;if(it){const e=D.err[sk]=D.err[sk]||[];if(e.length<12)e.push(it);const kk=sk+'|'+(it.lb||it.w||'?');D.fc[kk]=(D.fc[kk]||0)+1}}
@@ -290,14 +476,14 @@ function end(){const k=cur.k,a=A[k],h={t:Date.now(),k,ok:cur.ok,n:cur.n,p:cur.pt
   main.innerHTML=`<div class="card" style="--a:${G[a.g][1]}"><div style="font-size:48px">${p>=80?'🏆':p>=50?'👏':'💪'}</div><div class="big-n">${h.ok} / ${h.n}</div><p>Puntos de esta ronda: <b>${h.p>=0?'+':''}${h.p}</b></p><p style="color:var(--muted)">${cmp}</p>${lv}${nw.map(m=>`<p>🎉 ¡Medalla nueva! ${m[0]} ${m[1]}</p>`).join('')}${pn>0?`<p>🎉 ¡${pn>1?pn+' medallas nuevas':'Medalla nueva'} de puntos! ${PI[(pm()-1)%7]}</p>`:''}<button class="big" onclick="start('${k}')">Otra vez</button><button class="big s" onclick="go('home')">Inicio</button></div>`}
 
 /* ---- pantallas ---- */
-function chrome(){const home=scr==='home';$('#dock').style.display=(scr==='play'||scr==='end')?'none':'flex';
+function chrome(){applyBg();const home=scr==='home';$('#dock').style.display=(scr==='play'||scr==='end')?'none':'flex';
   document.querySelectorAll('#dock button').forEach(b=>b.classList.toggle('on',b.dataset.s===scr));
-  $('#bk').textContent=home?'👤':'←';$('#bk').onclick=()=>home?profiles():go('home');
-  $('#ttl').textContent=home?`Hola, ${R.cur} 👋`:scr==='play'||scr==='end'?A[cur.k].n:({prog:'Mi progreso',cal:'Calendario',meds:'Medallas',par:'Zona de padres',prof:'Mi cuenta',cue:'Elige un cuento'})[scr]||''}
-function go(s){scr=s;cur=null;document.onkeydown=null;if(s!=='par')parOK=false;if(s==='cal')cmo=0;chrome();({home,prog,meds,cal,par,prof:profiles})[s]();window.scrollTo(0,0)}
+  $('#bk').textContent=home?((D.shop&&D.shop.av)||'👤'):'←';$('#bk').onclick=()=>home?profiles():go('home');
+  $('#ttl').textContent=home?`${(D.shop&&D.shop.av)||''} Hola, ${R.cur} 👋`.trim():scr==='play'||scr==='end'?A[cur.k].n:({prog:'Mi progreso',cal:'Calendario',meds:'Medallas',par:'Zona de padres',prof:'Mi cuenta',cue:'Elige un cuento',reto:'Reto del día',shop:'Tienda',rep:'Informe semanal'})[scr]||''}
+function go(s){scr=s;cur=null;document.onkeydown=null;if(s!=='par'&&s!=='rep')parOK=false;if(s==='cal')cmo=0;chrome();({home,prog,meds,cal,par,prof:profiles,reto:retoScreen,shop:shopScreen,rep:repScreen})[s]();window.scrollTo(0,0)}
 function ring(p){const c=2*Math.PI*30;return`<svg width="76" height="76" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--ok)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 38 38)"/><text x="38" y="44" text-anchor="middle" font-size="20" font-weight="800" fill="currentColor">${p>=1?'✓':Math.round(p*100)+'%'}</text></svg>`}
 function home(){const td=D.days[T()]||0,st=streak();
-  let h=`<div class="wg"><button class="w big" onclick="go('prog')">${ring(Math.min(1,td/GOAL))}<div><small>Meta de hoy</small><br><b>${td}/${GOAL} pts</b><br><small>🔥 ${st} ${st==1?'día':'días'} seguidos</small></div></button><button class="w" onclick="go('prog')"><small>Puntos</small><b>⭐ ${D.score}</b></button><button class="w" onclick="go('meds')"><small>Medallas</small><b>🏅 ${D.med.length+pm()}</b></button></div>`;
+  let h=`<div class="wg"><button class="w big" onclick="go('prog')">${ring(Math.min(1,td/GOAL))}<div><small>Meta de hoy</small><br><b>${td}/${GOAL} pts</b><br><small>🔥 ${st} ${st==1?'día':'días'} seguidos</small></div></button><button class="w" onclick="go('prog')"><small>Puntos</small><b>⭐ ${D.score}</b></button><button class="w" onclick="go('meds')"><small>Medallas</small><b>🏅 ${D.med.length+pm()}</b></button>${retoW()}</div>`;
   Object.keys(G).forEach(g=>{h+=`<h2>${G[g][0]}</h2><div class="apps">`+Object.keys(A).filter(k=>A[k].g===g).map(k=>`<button class="app" style="--a:${G[g][1]}" onclick="start('${k}')">${k==='rev'?`<span class="lvb">${Object.values(D.err).reduce((s,x)=>s+x.length,0)}</span>`:A[k].ad?`<span class="lvb">Nv ${L(k)}</span>`:''}<span class="ic">${A[k].e}</span>${A[k].n}</button>`).join('')+'</div>'});
   main.innerHTML=h+'<p style="text-align:center;color:var(--muted);font-size:13px;margin-top:22px">Acierto +5 · Fallo −2</p>'}
 function prog(){const H=D.hist;let rows='';
@@ -395,8 +581,8 @@ function parInner(){const wk=rep(7,(_,i)=>{const d=new Date(Date.now()-(6-i)*864
   const fails=Object.entries(D.fc).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>{const[a,l]=k.split('|');return`<div class="row"><div>${A[a]?A[a].e:''} ${l}</div><b>×${n}</b></div>`}).join('')||'<p style="color:var(--muted)">Aún no hay fallos 🎉</p>';
   const lv=Object.keys(A).filter(k=>A[k].ad).map(k=>`${A[k].n}: nivel ${L(k)}`).join(' · ');
   const code=btoa(unescape(encodeURIComponent(JSON.stringify(D))));
-  main.innerHTML=`<div class="card"><b>Puntos de los últimos 7 días</b><div class="chart">${wk.map(x=>`<div style="height:${Math.max(4,x[1]/mx*100)}%;background:var(--m)" title="${x[1]}"></div>`).join('')}</div><div style="display:flex;gap:6px;font-size:12px;color:var(--muted)">${wk.map(x=>`<span style="flex:1;text-align:center">${x[0]}</span>`).join('')}</div></div><div class="card" style="text-align:left"><b>Lo que más falla</b>${fails}<p style="color:var(--muted);font-size:14px">${lv}</p></div><div class="card" style="text-align:left"><b>📖 Añadir mi cuento</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Pega un cuento (entre 200 y 2500 letras). La app creará las preguntas sola y saldrá junto a los demás cuentos.${cloud?' Lo verán todas las familias que usan la app.':''}</p><input id="ct" placeholder="Título del cuento" maxlength="60" style="margin-bottom:8px"><textarea id="cx" rows="6" placeholder="Pega aquí el texto del cuento"></textarea><button class="big" id="cs" style="margin-left:0">Crear preguntas y guardar</button>${(R.cs||[]).map((s,i)=>(!cloud||(fbU&&s.uid===fbU.uid))?`<div class="row"><div>📖 ${s.t}</div><button class="chip" data-d="${i}">🗑️</button></div>`:'').join('')}</div><div class="card" style="text-align:left"><button class="big s" id="mu" style="margin-left:0">${D.mute?'🔇 Sonidos desactivados':'🔊 Sonidos activados'}</button><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Copia de seguridad: copia este código para pasar el progreso a otro dispositivo.</p><textarea rows="2" readonly onclick="this.select()">${code}</textarea><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Importar código (sustituye el progreso de ${R.cur}):</p><textarea rows="2" id="im"></textarea><button class="big" id="ib" style="margin-left:0">Importar</button><button class="big s" id="cp">Cambiar PIN</button><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><button class="big s" id="rs" style="margin-left:0">🧹 Empezar de cero (borra el progreso de ${R.cur})</button><button class="big s" id="dp" style="margin-left:0">🗑️ Eliminar usuario ${R.cur}</button></div>`;
-  $('#mu').onclick=()=>{D.mute=D.mute?0:1;save();parInner()};$('#cp').onclick=()=>{R.pin='';savePin();save();parOK=false;gate()};
+  main.innerHTML=`<div class="card"><b>Puntos de los últimos 7 días</b><div class="chart">${wk.map(x=>`<div style="height:${Math.max(4,x[1]/mx*100)}%;background:var(--m)" title="${x[1]}"></div>`).join('')}</div><div style="display:flex;gap:6px;font-size:12px;color:var(--muted)">${wk.map(x=>`<span style="flex:1;text-align:center">${x[0]}</span>`).join('')}</div></div><div class="card" style="text-align:left"><b>Lo que más falla</b>${fails}<p style="color:var(--muted);font-size:14px">${lv}</p></div><div class="card" style="text-align:left"><b>📄 Informe semanal</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Resumen de la última semana de cada jugador, para guardar en PDF o imprimir.</p><button class="big" id="rv" style="margin-left:0">Ver informe</button></div><div class="card" style="text-align:left"><b>📖 Añadir mi cuento</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Pega un cuento (entre 200 y 2500 letras). La app creará las preguntas sola y saldrá junto a los demás cuentos.${cloud?' Lo verán todas las familias que usan la app.':''}</p><input id="ct" placeholder="Título del cuento" maxlength="60" style="margin-bottom:8px"><textarea id="cx" rows="6" placeholder="Pega aquí el texto del cuento"></textarea><button class="big" id="cs" style="margin-left:0">Crear preguntas y guardar</button>${(R.cs||[]).map((s,i)=>(!cloud||(fbU&&s.uid===fbU.uid))?`<div class="row"><div>📖 ${s.t}</div><button class="chip" data-d="${i}">🗑️</button></div>`:'').join('')}</div><div class="card" style="text-align:left"><button class="big s" id="mu" style="margin-left:0">${D.mute?'🔇 Sonidos desactivados':'🔊 Sonidos activados'}</button><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Copia de seguridad: copia este código para pasar el progreso a otro dispositivo.</p><textarea rows="2" readonly onclick="this.select()">${code}</textarea><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Importar código (sustituye el progreso de ${R.cur}):</p><textarea rows="2" id="im"></textarea><button class="big" id="ib" style="margin-left:0">Importar</button><button class="big s" id="cp">Cambiar PIN</button><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><button class="big s" id="rs" style="margin-left:0">🧹 Empezar de cero (borra el progreso de ${R.cur})</button><button class="big s" id="dp" style="margin-left:0">🗑️ Eliminar usuario ${R.cur}</button></div>`;
+  $('#mu').onclick=()=>{D.mute=D.mute?0:1;save();parInner()};$('#cp').onclick=()=>{R.pin='';savePin();save();parOK=false;gate()};$('#rv').onclick=()=>go('rep');
  $('#cs').onclick=()=>{const t=$('#ct').value.trim(),x=$('#cx').value.trim();if(t.length<2){toast('Pon un título',false);return}if(x.length<200){toast('El cuento es muy corto (mínimo 200 letras)',false);return}if(x.length>2500){toast('Es demasiado largo (máximo 2500 letras)',false);return}const q=mkQ(t,x);if(q.length<3){toast('No he podido crear preguntas. Prueba con un texto más largo.',false);return}const o={t:esc(t),x:esc(x).replace(/\n/g,'<br>'),q};if(cloud){FB.fs.addDoc(FB.fs.collection(FB.db,'stories'),{uid:fbU.uid,t:o.t,x:o.x,qj:JSON.stringify(q),at:Date.now()}).then(()=>toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)).catch(()=>toast('No se pudo guardar el cuento',false))}else{(R.cs=R.cs||[]).push(o);save();toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)}parInner()};
  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=function(){if(this.dataset.c){const s=R.cs[+this.dataset.d];if(cloud){if(s&&s.id)FB.fs.deleteDoc(FB.fs.doc(FB.db,'stories',s.id)).catch(()=>toast('No se pudo borrar',false))}else{R.cs.splice(+this.dataset.d,1);save()}parInner()}else{this.dataset.c=1;this.textContent='¿Borrar?'}});
    $('#dp').onclick=function(){if(this.dataset.c){const n=R.cur;R.names=R.names.filter(x=>x!==n);delete R.d[n];delete R.u[n];R.cur=null;R.keep='';D=newD();if(cloud){if(fbU)FB.fs.deleteDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',n)).catch(()=>{})}else save();toast('Usuario eliminado',true);cloud?players():showLogin('in')}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}};
