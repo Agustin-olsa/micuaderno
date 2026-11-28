@@ -6,29 +6,26 @@
 <title>Mi cuaderno · 2º de primaria</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f0f4fa;--card:#ffffff;--text:#162038;--muted:#64748b;--line:#e2e8f0;--m:#4f46e5;--i:#0d9488;--l:#f59e0b;--r:#8b5cf6;--k:#e11d48;--ok:#10b981;--bad:#ef4444;--sh:rgba(15,23,42,.08);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0f19;--card:#151c2e;--text:#f8fafc;--muted:#94a3b8;--line:#243049;--sh:rgba(0,0,0,.45);color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0b0f19;--card:#151c2e;--text:#f8fafc;--muted:#94a3b8;--line:#243049;--sh:rgba(0,0,0,.45);color-scheme:dark}
+:root{--bg:#eef1f8;--card:#fff;--text:#1e2440;--muted:#6a7390;--line:#e3e7f2;--m:#5b6cff;--i:#12a594;--l:#f0900f;--r:#9b5de5;--k:#d6457f;--ok:#22a45d;--bad:#e5484d;--sh:rgba(30,36,64,.09);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1226;--card:#1b1f40;--text:#eef0ff;--muted:#a3abd0;--line:#2d3360;--sh:rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1226;--card:#1b1f40;--text:#eef0ff;--muted:#a3abd0;--line:#2d3360;--sh:rgba(0,0,0,.4);color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
-body{margin:0;background-color:var(--bg);background-image:radial-gradient(circle at 15% 10%,color-mix(in srgb,var(--m) 12%,transparent),transparent 38%),radial-gradient(circle at 85% 65%,color-mix(in srgb,var(--i) 10%,transparent),transparent 42%);background-attachment:fixed;color:var(--text);font-family:"Nunito","Segoe UI",Arial,sans-serif;font-size:18px}
-#app{max-width:560px;margin:0 auto;padding:10px 16px calc(120px + env(safe-area-inset-bottom,0px))}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Nunito","Segoe UI",Arial,sans-serif;font-size:18px}
+#app{max-width:560px;margin:0 auto;padding:10px 16px 110px}
 header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 #ttl{flex:1;font-size:18px;font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chip{background:var(--card);border:0;border-radius:14px;padding:8px 13px;font:inherit;font-weight:800;color:var(--text);box-shadow:0 2px 8px var(--sh);cursor:pointer}
 .wg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
-.w{background:var(--card);border-radius:22px;padding:14px;box-shadow:0 4px 14px var(--sh);display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);font:inherit;color:var(--text);text-align:left;cursor:pointer;transition:transform .15s ease,border-color .2s ease}
-.w:active{transform:scale(.97)}
+.w{background:var(--card);border-radius:24px;padding:14px;box-shadow:0 2px 10px var(--sh);display:flex;flex-direction:column;justify-content:center;border:0;font:inherit;color:var(--text);text-align:left;cursor:pointer}
 .w.big{grid-column:1/3;flex-direction:row;align-items:center;gap:14px}
-.w small{color:var(--muted);font-size:13px;font-weight:600}.w b{font-size:24px;font-weight:800;line-height:1.2;margin:2px 0}
-h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:22px 4px 12px}
-.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 8px}
-.app{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:7px;font:inherit;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;position:relative;padding:0;line-height:1.25}
-.ic{width:66px;height:66px;border-radius:20px;background:linear-gradient(145deg,var(--a),color-mix(in srgb,var(--a) 68%,#000));border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;box-shadow:0 6px 14px var(--sh);transition:transform .15s ease}
-.ic-pill{background:rgba(255,255,255,.22);padding:3px 8px;border-radius:9px;font-size:16px;font-weight:800;letter-spacing:.5px}
-.lvb{position:absolute;top:-5px;right:calc(50% - 37px);background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;font-size:11px;padding:1px 7px;box-shadow:0 2px 6px var(--sh);font-weight:800;z-index:1}
+.w small{color:var(--muted);font-size:13px;font-weight:600}.w b{font-size:26px;font-weight:800}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:18px 4px 10px}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px}
+.app{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;position:relative;padding:0}
+.ic{width:64px;height:64px;border-radius:19px;background:linear-gradient(150deg,var(--a),color-mix(in srgb,var(--a) 62%,#000));display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 10px var(--sh)}
+.lvb{position:absolute;top:-4px;right:calc(50% - 38px);background:var(--card);border-radius:9px;font-size:11px;padding:1px 6px;box-shadow:0 1px 4px var(--sh);font-weight:800}
 .app:active .ic,.opt:active,.big:active,.key:active{transform:scale(.94)}
-#dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(520px,calc(100% - 24px));background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;box-shadow:0 10px 28px var(--sh);display:flex;justify-content:space-around;padding:7px;z-index:4}
-#dock button.on{background:color-mix(in srgb,var(--m) 18%,var(--bg));color:var(--text)}
+#dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(520px,calc(100% - 24px));background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);border-radius:26px;box-shadow:0 6px 24px var(--sh);display:flex;justify-content:space-around;padding:8px;z-index:4}
 #dock button{background:none;border:0;font:inherit;font-size:11px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 7px;border-radius:16px;cursor:pointer;flex:1}
 #dock button span{font-size:22px}#dock button.on{background:var(--bg);color:var(--text)}
 .card{background:var(--card);border-radius:22px;padding:18px;box-shadow:0 2px 10px var(--sh);text-align:center;margin-bottom:12px}
@@ -73,7 +70,7 @@ textarea,input{width:100%;font:inherit;font-size:14px;border:2px solid var(--lin
 </head>
 <body>
 <div id="app">
-<header><button class="chip" id="bk">👤</button><h1 id="ttl">Hola</h1><button class="chip" id="th">🌓</button><div class="chip">⭐ <span id="score">0</span></div><div id="logo"></div></header>
+<header><button class="chip" id="bk">👤</button><h1 id="ttl">Hola</h1><span id="sy" style="font-size:18px"></span><button class="chip" id="th">🌓</button><div class="chip">⭐ <span id="score">0</span></div><div id="logo"></div></header>
 <main id="main"></main>
 <footer id="ft"><div class="lg" id="fl"></div><div>© <span id="yr"></span> <b>Agustín O.S.</b></div><div>Todos los derechos reservados · Mi cuaderno, 2º de primaria</div></footer>
 </div>
@@ -89,7 +86,7 @@ let cloud=false,FB=null,fbU=null,svT=null,LEG=null,unsubs=[];
 let R={cur:null,names:[],d:{},u:{}},D=newD(),cur=null,tm=null,lastStory=-1,scr='home',parOK=false,cur_srcs=null;
 try{const s=localStorage.getItem('mc3');if(s)R=JSON.parse(s)}catch(e){}
 R.u=R.u||{};R.names=R.names||[];R.d=R.d||{};R.cur=null;D=newD();R.theme=(()=>{try{return localStorage.getItem('mct')}catch(e){return null}})()||R.theme||'auto';
-const save=()=>{try{if(R.cur)R.d[R.cur]=D;if(cloud){pushSoon();return}localStorage.setItem('mc3',JSON.stringify(R))}catch(e){}};
+const save=()=>{try{if(R.cur)R.d[R.cur]=D;if(cloud){pushSoon();if(fbU&&R.cur)localStorage.setItem('mcb:'+fbU.uid+':'+R.cur,JSON.stringify(D));return}localStorage.setItem('mc3',JSON.stringify(R))}catch(e){}};
 const T=()=>new Date().toLocaleDateString('sv');
 const GOAL=100;
 function streak(){let n=0;const d=Date.now();for(let i=0;i<400;i++){const k=new Date(d-i*864e5).toLocaleDateString('sv');if(D.days[k]!==undefined)n++;else if(i>0)break}return n}
@@ -175,7 +172,7 @@ const A={
    else{a=ri(2,mx-2);b=ri(1,mx-a);t=`${n} tiene ${a} ${o} y le regalan ${b} más. ¿Cuántos tiene ahora?`;r=a+b}
    return{t,r,lb:t.slice(0,28)+'…'}}),
   round:i=>(el,ans)=>num(el,ans,`<div class="txt">${i.t}</div>%B%`,i.r,5)},
- serie:{g:'m',n:'Series',e:'<span class="ic-pill">1·2·3</span>',ad:1,pool:()=>rep(8,()=>{const l=L('serie'),st=pick(l==1?[1,2,5,10]:[2,3,4,5,10]),dn=l==3&&Math.random()<.5,s0=dn?ri(5,9)*st:ri(0,6)*(l==1?1:st);
+ serie:{g:'m',n:'Series',e:'🔢',ad:1,pool:()=>rep(8,()=>{const l=L('serie'),st=pick(l==1?[1,2,5,10]:[2,3,4,5,10]),dn=l==3&&Math.random()<.5,s0=dn?ri(5,9)*st:ri(0,6)*(l==1?1:st);
    const q=rep(5,(_,k)=>s0+(dn?-1:1)*st*k),h=l==1?4:ri(1,4);const t=q.map((x,k)=>k==h?'__':x).join(' , ');return{t,r:q[h],lb:t}}),
   round:i=>(el,ans)=>num(el,ans,`<div class="txt">¿Qué número falta?</div><div class="hor" style="font-size:34px;margin:8px 0">${i.t}</div>%B%`,i.r,5)},
  comp:{g:'m',n:'Comparar',e:'⚖️',ad:1,pool:()=>rep(10,()=>{const l=L('comp');let a,b,ls,rs;
@@ -183,11 +180,11 @@ const A={
    const c=a<b?0:a>b?1:2;return{q:`<div class="hor">${ls} <span style="color:var(--a)">?</span> ${rs}</div>`,o:['<','>','='],c,cl:'three',lb:`${ls} ? ${rs}`}}),round:cRound},
  reloj:{g:'m',n:'El reloj',e:'🕒',ad:1,pool:()=>rep(8,()=>{const l=L('reloj'),h=ri(1,12),m=pick(l==1?[0]:l==2?[0,30]:[0,15,30,45]);const r=hm(h,m),s=new Set([r]);while(s.size<4)s.add(hm(ri(1,12),pick([0,15,30,45])));
    return mc(clock(h,m)+'<div class="txt">¿Qué hora es?</div>',r,[...s].filter(x=>x!==r),{lb:r})}),round:cRound},
- pal:{g:'i',n:'Ordena la palabra',e:'<span class="ic-pill">abc</span>',pool:()=>shuffle(W).slice(0,10),
+ pal:{g:'i',n:'Ordena la palabra',e:'🔤',pool:()=>shuffle(W).slice(0,10),
   round:w=>tRound(w.w.split(''),'',`<div class="img">${w.e}</div><p style="color:var(--muted);margin:0">Ordena las letras</p>`,w.w)},
  col:{g:'i',n:'Los colores',e:'🎨',pool:()=>shuffle(C).slice(0,10),
   round:c=>(el,ans)=>{el.innerHTML=`<div class="card"><div class="dot" style="background:${c.c}"></div><div style="font-weight:800">¿Cómo se dice este color en inglés?</div></div>`;const o=shuffle([c.w,...shuffle(C.filter(x=>x!==c)).slice(0,3).map(x=>x.w)]);choices(el,o,o.indexOf(c.w),ans)}},
- num:{g:'i',n:'Números',e:'<span class="ic-pill">1-10</span>',pool:()=>shuffle(NW.map((w,k)=>k)).slice(0,10).map(k=>mc(`<div class="hor">${k+1}</div><p style="margin:6px 0 0;color:var(--muted)">¿Cómo se dice en inglés?</p>`,NW[k],shuffle(NW.filter((_,j)=>j!==k)).slice(0,3),{lb:String(k+1)})),round:cRound},
+ num:{g:'i',n:'Números',e:'🔟',pool:()=>shuffle(NW.map((w,k)=>k)).slice(0,10).map(k=>mc(`<div class="hor">${k+1}</div><p style="margin:6px 0 0;color:var(--muted)">¿Cómo se dice en inglés?</p>`,NW[k],shuffle(NW.filter((_,j)=>j!==k)).slice(0,3),{lb:String(k+1)})),round:cRound},
  tr:{g:'i',n:'Traducir',e:'🔁',pool:()=>shuffle(TR).slice(0,10).map(([es,en])=>mc(`<div class="txt">¿Cómo se dice <b>${es}</b> en inglés?</div>`,en,shuffle(TR.filter(x=>x[1]!==en)).slice(0,3).map(x=>x[1]),{lb:es})),round:cRound},
  cue:{g:'l',n:'Mini cuento',e:'📖',make:()=>{const AL=S.concat(R.cs||[]);let i;if(cueSel>=0&&AL[cueSel])i=cueSel;else do{i=ri(0,AL.length-1)}while(i===lastStory&&AL.length>1);lastStory=i;const s=AL[i];
    const r=[(el,ans,skip)=>{el.innerHTML=`<div class="card"><div class="story"><h3>${s.t}</h3>${s.x}</div><button class="big" id="rd">Ya lo leí → preguntas</button></div>`;$('#rd').onclick=skip}];
@@ -207,14 +204,14 @@ const CL=[['casa','nombre'],['perro','nombre'],['correr','verbo'],['saltar','ver
 const opP=(b,f)=>{const all=b.flat();return shuffle(b.flatMap(([a,c])=>[[a,c],[c,a]])).slice(0,10).map(([a,c])=>mc(f(a),c,shuffle(all.filter(x=>x!==a&&x!==c)).slice(0,3),{lb:a}))};
 const tot=()=>Math.max(D.tot||0,D.score),pm=()=>Math.floor(tot()/100),PI=['🥉','🥈','🥇','🏅','🎖️','👑','💎'];
 Object.assign(A,{
- dec:{g:'m',n:'Decenas',e:'<span class="ic-pill">10s</span>',pool:()=>rep(10,()=>{let d,u;do{d=ri(1,9);u=ri(0,9)}while(d===u);const n=d*10+u;return mc(`<div class="hor">${n}</div><div class="txt">¿Cuántas decenas (D) y unidades (U)?</div>`,`${d} D y ${u} U`,[`${u} D y ${d} U`,`${d} D y ${d} U`,`${u} D y ${u} U`],{lb:String(n)})}),round:cRound},
+ dec:{g:'m',n:'Decenas',e:'🔠',pool:()=>rep(10,()=>{let d,u;do{d=ri(1,9);u=ri(0,9)}while(d===u);const n=d*10+u;return mc(`<div class="hor">${n}</div><div class="txt">¿Cuántas decenas (D) y unidades (U)?</div>`,`${d} D y ${u} U`,[`${u} D y ${d} U`,`${d} D y ${d} U`,`${u} D y ${u} U`],{lb:String(n)})}),round:cRound},
  c10:{g:'m',n:'Completa',e:'🎯',ad:1,pool:()=>rep(10,()=>{const l=L('c10'),t=l==1?10:l==2?20:100,a=l==3?ri(1,9)*10:ri(1,t-1);return{a,t,lb:`${a}+?=${t}`}}),round:i=>(el,ans)=>num(el,ans,`<div class="hor" style="font-size:36px">${i.a} + %B% = ${i.t}</div>`,i.t-i.a,5)},
  din:{g:'m',n:'Dinero',e:'💶',ad:1,pool:()=>rep(8,()=>{const l=L('din'),v=l==1?[1,2,5]:[1,2,5,10],c=rep(ri(2,l==3?5:3),()=>pick(v));return{c,lb:c.join('+')+'€'}}),round:i=>(el,ans)=>num(el,ans,`<div class="txt">¿Cuántos euros hay en total?</div><div class="hor" style="font-size:30px;margin:8px 0">${i.c.map(x=>`🪙${x}€`).join(' ')}</div>%B%`,i.c.reduce((s,x)=>s+x,0),5)},
  pim:{g:'m',n:'Pares e impares',e:'🎲',pool:()=>rep(10,()=>{const n=ri(1,99);return{q:`<div class="hor">${n}</div><div class="txt">¿Es par o impar?</div>`,o:['par','impar'],c:n%2?1:0,lb:String(n)}}),round:cRound},
  opo:{g:'i',n:'Opuestos',e:'↔️',pool:()=>opP(OP,a=>`<div class="txt">Lo contrario de <b>${a}</b> es…</div>`),round:cRound},
  dm:{g:'i',n:'Días y meses',e:'🗓️',pool:()=>shuffle(DM).slice(0,10).map(([es,en])=>mc(`<div class="txt">¿Cómo se dice <b>${es}</b> en inglés?</div>`,en,shuffle(DM.filter(x=>x[1]!==en)).slice(0,3).map(x=>x[1]),{lb:es})),round:cRound},
  ant:{g:'l',n:'Antónimos',e:'🔀',pool:()=>opP(AN,a=>`<div class="txt">Lo contrario de <b>${a}</b> es…</div>`),round:cRound},
- art:{g:'l',n:'El o la',e:'<span class="ic-pill">el/la</span>',pool:()=>shuffle(AR).slice(0,10).map(([w,a])=>mc(`<div class="hor">__ ${w}</div>`,a,[a==='el'?'la':'el'],{lb:w})),round:cRound},
+ art:{g:'l',n:'El o la',e:'🅰️',pool:()=>shuffle(AR).slice(0,10).map(([w,a])=>mc(`<div class="hor">__ ${w}</div>`,a,[a==='el'?'la':'el'],{lb:w})),round:cRound},
  rim:{g:'l',n:'Rimas',e:'🎵',pool:()=>shuffle(RM).slice(0,8).map(([a,b])=>mc(`<div class="txt">¿Qué palabra rima con <b>${a}</b>?</div>`,b,shuffle(RM.filter(x=>x[1]!==b)).slice(0,3).map(x=>x[1]),{lb:a})),round:cRound},
  cla:{g:'l',n:'Clases de palabras',e:'🏷️',pool:()=>shuffle(CL).slice(0,10).map(([w,t])=>({q:`<div class="hor">${w}</div><div class="txt">¿Es nombre, verbo o adjetivo?</div>`,o:['nombre','verbo','adjetivo'],c:['nombre','verbo','adjetivo'].indexOf(t),cl:'one',lb:w})),round:cRound},
  rev:{g:'x',n:'Repaso de errores',e:'🔁'}
@@ -411,7 +408,7 @@ const BGS=[['sky','Cielo','#4aa3ff'],['mint','Menta','#2fc99a'],['sunset','Atard
 const PRC={s:i=>i<8?30:i<16?60:i<24?100:i<40?80:100,a:i=>i<12?50:i<26?70:100,b:()=>120};
 let shopTab='s',repN=null;
 const sh=()=>{D.shop=D.shop||{own:[],av:'',bg:''};delete D.shop.img;return D.shop};
-function applyBg(){const b=R.cur&&D.shop&&D.shop.bg?BGS.find(x=>x[0]===D.shop.bg):null;document.body.style.background=b?`linear-gradient(180deg,color-mix(in srgb,${b[2]} 30%,var(--bg)),var(--bg) 65%) fixed`:'';document.body.style.backgroundColor='var(--bg)'}
+function applyBg(){const b=R.cur&&D.shop&&D.shop.bg?BGS.find(x=>x[0]===D.shop.bg):null;document.body.style.background=b?`linear-gradient(180deg,color-mix(in srgb,${b[2]} 30%,var(--bg)),var(--bg) 65%) fixed`:''}
 let shopMsg='';
 function awardMed(){const nw=MED.filter((m,i)=>m[2]()&&!D.med.includes(i));nw.forEach(m=>D.med.push(MED.indexOf(m)));return nw}
 const AVG=['🤡','🥸','🤪','😜','😎','🤓','🥳','🤠','🤩','😺','🙈','🙉','🙊','🦥','🦔','🥷','🧛','🧟','🧞','🥴','😴','🤯','🥶','🤗'];
@@ -524,7 +521,7 @@ function go(s){scr=s;cur=null;document.onkeydown=null;if(s!=='par'&&s!=='rep')pa
 function ring(p){const c=2*Math.PI*30;return`<svg width="76" height="76" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--ok)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 38 38)"/><text x="38" y="44" text-anchor="middle" font-size="20" font-weight="800" fill="currentColor">${p>=1?'✓':Math.round(p*100)+'%'}</text></svg>`}
 function home(){const td=D.days[T()]||0,st=streak();
   let h=`<div class="wg"><button class="w big" onclick="go('prog')">${ring(Math.min(1,td/GOAL))}<div><small>Meta de hoy</small><br><b>${td}/${GOAL} pts</b><br><small>🔥 ${st} ${st==1?'día':'días'} seguidos</small></div></button><button class="w" onclick="go('prog')"><small>Puntos</small><b>⭐ ${D.score}</b></button><button class="w" onclick="go('meds')"><small>Medallas</small><b>🏅 ${D.med.length+pm()}</b></button>${retoW()}</div>`;
-  Object.keys(G).forEach(g=>{h+=`<h2>${G[g][0]}</h2><div class="apps">`+Object.keys(A).filter(k=>A[k].g===g).map(k=>`<button class="app" style="--a:${G[g][1]}" onclick="start('${k}')">${k==='rev'?`<span class="lvb">${Object.values(D.err).reduce((s,x)=>s+x.length,0)}</span>`:`<span class="lvb">Nv ${L(k)}</span>`}<span class="ic">${A[k].e}</span>${A[k].n}</button>`).join('')+'</div>'});
+  Object.keys(G).forEach(g=>{h+=`<h2>${G[g][0]}</h2><div class="apps">`+Object.keys(A).filter(k=>A[k].g===g).map(k=>`<button class="app" style="--a:${G[g][1]}" onclick="start('${k}')">${k==='rev'?`<span class="lvb">${Object.values(D.err).reduce((s,x)=>s+x.length,0)}</span>`:A[k].ad?`<span class="lvb">Nv ${L(k)}</span>`:''}<span class="ic">${A[k].e}</span>${A[k].n}</button>`).join('')+'</div>'});
   main.innerHTML=h+'<p style="text-align:center;color:var(--muted);font-size:13px;margin-top:22px">Acierto +5 · Fallo −2</p>'}
 function prog(){const H=D.hist;let rows='';
   Object.keys(A).forEach(k=>{const x=H.filter(h=>h.k===k);if(!x.length)return;const l=pct(x[x.length-1]),tr=x.length<2?'':l>pct(x[x.length-2])?' ⬆️':l<pct(x[x.length-2])?' ⬇️':' ➡️';rows+=`<div class="row"><div>${A[k].e} ${A[k].n}<small>${x.length} partidas · mejor ${Math.max(...x.map(pct))}%</small></div><b>${l}%${tr}</b></div>`});
@@ -559,21 +556,29 @@ async function fbInit(){try{const B='https://www.gstatic.com/firebasejs/10.14.1/
  const app=a.initializeApp(FBC);let db;try{db=fs.initializeFirestore(app,{localCache:fs.persistentLocalCache({tabManager:fs.persistentMultipleTabManager()})})}catch(e){db=fs.getFirestore(app)}
  FB={a,au,fs,auth:au.getAuth(app),db};return true}catch(e){console.warn('Firebase no disponible: modo local',e);return false}}
 const fbErr=c=>({'auth/invalid-email':'El email no es válido','auth/invalid-credential':'Email o contraseña incorrectos','auth/user-not-found':'No hay ninguna cuenta con ese email','auth/wrong-password':'Contraseña incorrecta','auth/email-already-in-use':'Ese email ya tiene una cuenta','auth/weak-password':'La contraseña necesita al menos 6 caracteres','auth/too-many-requests':'Demasiados intentos. Espera un poco','auth/network-request-failed':'Sin conexión a internet','auth/missing-password':'Escribe la contraseña'}[c]||'No se ha podido completar ('+c+')');
-function pushSoon(){clearTimeout(svT);svT=setTimeout(pushNow,600)}
-function pushNow(){clearTimeout(svT);if(!cloud||!fbU||!R.cur)return Promise.resolve();const{fs,db}=FB;return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',R.cur),{j:JSON.stringify(R.d[R.cur]||D),u:Date.now()}).catch(e=>console.warn(e))}
+const progScore=d=>d?Math.max(d.tot||0,d.score||0)+(d.hist||[]).length/1000:0;
+let remote={},sy='',forceW=false,dirty=false;
+function setSy(s){sy=s;const e=$('#sy');if(e)e.textContent=s==='ok'?'☁️':s==='err'?'⚠️':s==='off'?'📴':s==='wait'?'⏳':''}
+function pushSoon(){dirty=true;clearTimeout(svT);setSy('wait');svT=setTimeout(pushNow,3000)}
+function pushNow(force){clearTimeout(svT);dirty=false;if(!cloud||!fbU||!R.cur)return Promise.resolve();const{fs,db}=FB,n=R.cur,rem=remote[n];
+ if(force!==true&&!forceW&&rem&&progScore(rem)>progScore(R.d[n]||D)+.0005){R.d[n]=Object.assign(newD(),rem);D=R.d[n];$('#score').textContent=D.score;setSy('ok');toast('Se han cargado datos más recientes de otro dispositivo',true);return Promise.resolve()}
+ forceW=false;
+ return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',n),{j:JSON.stringify(R.d[n]||D),u:Date.now()}).then(()=>setSy(navigator.onLine===false?'off':'ok')).catch(e=>{console.warn(e);setSy('err');toast('No se pudo guardar en la nube',false)})}
 function savePin(){if(cloud&&fbU)FB.fs.setDoc(FB.fs.doc(FB.db,'families',fbU.uid),{pin:R.pin},{merge:true}).catch(e=>console.warn(e))}
 function stopSync(){unsubs.forEach(f=>{try{f()}catch(e){}});unsubs=[]}
-function startSync(uid){stopSync();const{fs,db}=FB;let gF=false,gP=false;
- const ready=()=>{if(gF&&gP&&scr==='wait')afterSync()};
+function startSync(uid){stopSync();const{fs,db}=FB;let gF=false,gP=false,sF=false,sP=false,late=false;remote={};
+ const ready=()=>{if(scr==='wait'&&((sF&&sP)||(gF&&gP&&late)))afterSync()};
+ setTimeout(()=>{late=true;if(!(sF&&sP))setSy('off');ready()},5000);
  const er=e=>{console.warn(e);if(scr==='wait'){main.innerHTML='<div class="card" style="margin-top:12vh">No se pudo cargar la cuenta. Revisa las reglas de Firestore.<br><button class="big s" id="rt">Cerrar sesión</button></div>';$('#rt').onclick=()=>FB.au.signOut(FB.auth)}};
- unsubs.push(fs.onSnapshot(fs.doc(db,'families',uid),s=>{const d=s.data()||{};R.pin=d.pin||'';gF=true;ready()},er));
+ unsubs.push(fs.onSnapshot(fs.doc(db,'families',uid),s=>{const d=s.data()||{};R.pin=d.pin||'';gF=true;if(!s.metadata.fromCache)sF=true;ready()},er));
  unsubs.push(fs.onSnapshot(fs.collection(db,'families',uid,'players'),s=>{
   R.names=s.docs.map(d=>d.id);
-  s.docs.forEach(d=>{if(d.metadata.hasPendingWrites)return;let o={};try{o=JSON.parse(d.data().j||'{}')}catch(e){}R.d[d.id]=Object.assign(newD(),o);
-   if(R.cur===d.id&&!cur){D=R.d[d.id];$('#score').textContent=D.score;if(['home','prog','meds','cal'].includes(scr))go(scr)}});
+  s.docs.forEach(d=>{if(d.metadata.hasPendingWrites)return;let o={};try{o=JSON.parse(d.data().j||'{}')}catch(e){}remote[d.id]=o;R.d[d.id]=Object.assign(newD(),o);
+   if(R.cur===d.id&&!cur&&!dirty){D=R.d[d.id];$('#score').textContent=D.score;if(['home','prog','meds','cal'].includes(scr))go(scr)}});
   Object.keys(R.d).forEach(n=>{if(!R.names.includes(n))delete R.d[n]});
+  Object.keys(remote).forEach(n=>{if(!R.names.includes(n))delete remote[n]});
   if(R.cur&&!R.names.includes(R.cur)){R.cur=null;D=newD();if(scr!=='play'&&scr!=='end'&&scr!=='wait')players()}
-  gP=true;ready();if(scr==='players')players()},er));
+  gP=true;if(!s.metadata.fromCache){sP=true;if(sy==='off'&&!s.metadata.hasPendingWrites)setSy('ok')}ready();if(scr==='players')players()},er));
  unsubs.push(fs.onSnapshot(fs.collection(db,'stories'),s=>{R.cs=s.docs.map(d=>{const o=d.data();let q=[];try{q=JSON.parse(o.qj||'[]')}catch(e){}return{id:d.id,uid:o.uid,t:o.t,x:o.x,q}}).filter(x=>x.t&&x.x&&x.q.length>=3);
   if(scr==='cue')cuePicker();if(scr==='par'&&parOK&&!($('#cx')&&$('#cx').value))parInner()},e=>console.warn(e)))}
 function afterSync(){const m=(localStorage.getItem('mcp')||'').split('|');if(m[0]===fbU.uid&&R.names.includes(m[1]))enter(m[1]);else players()}
@@ -593,23 +598,28 @@ function players(){scr='players';cur=null;document.onkeydown=null;D=newD();$('#s
  const leg=LEG&&LEG.names&&LEG.names.length&&!(()=>{try{return localStorage.getItem('mcimp')}catch(e){return 1}})();
  main.innerHTML=`<div class="card" style="margin-top:4vh"><div style="display:flex;justify-content:center">${logo(64)}</div><h1 style="margin:8px 0 2px;font-size:24px">¿Quién juega?</h1><p style="color:var(--muted);margin:0 0 12px;font-size:14px">${esc((fbU&&fbU.email)||'')}</p>${R.names.map((n,i)=>`<button class="ct" style="--l:var(--m);margin-bottom:8px" data-p="${i}"><span class="e">${avHtml(R.d[n]||{},40)}</span><span>${n}<small>${(R.d[n]||{}).score||0} puntos</small></span></button>`).join('')||'<p style="color:var(--muted)">Todavía no hay jugadores. Añade el primero.</p>'}<div class="lgf" style="margin-top:10px"><input id="pn2" placeholder="Nombre del nuevo jugador" maxlength="14"></div><button class="big" id="pa" style="width:100%;margin:6px 0">➕ Añadir jugador</button>${leg?'<div><button class="lnk" id="pi">Importar jugadores guardados en este dispositivo</button></div>':''}<div><button class="lnk" id="po">Cerrar sesión</button></div></div>`;
  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>enter(R.names[+b.dataset.p]));
- $('#pa').onclick=()=>{const n=$('#pn2').value.trim().replace(/[\/\\.<>&"']/g,'');if(n.length<2){toast('Escribe un nombre (mínimo 2 letras)',false);return}if(R.names.some(x=>x.toLowerCase()===n.toLowerCase())){toast('Ese jugador ya existe',false);return}R.names.push(n);R.d[n]=newD();enter(n)};
+ $('#pa').onclick=()=>{const n=$('#pn2').value.trim().replace(/[\/\\.<>&"']/g,'');if(n.length<2){toast('Escribe un nombre (mínimo 2 letras)',false);return}if(R.names.some(x=>x.toLowerCase()===n.toLowerCase())){toast('Ese jugador ya existe',false);return}R.names.push(n);R.d[n]=newD();enter(n);pushNow(true)};
  if($('#pi'))$('#pi').onclick=()=>{LEG.names.forEach(n=>{const k=n.replace(/[\/\\.<>&"']/g,'');if(k.length<2||R.names.includes(k))return;FB.fs.setDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',k),{j:JSON.stringify(Object.assign(newD(),(LEG.d||{})[n]||{})),u:Date.now()}).catch(e=>console.warn(e))});try{localStorage.setItem('mcimp','1')}catch(e){}toast('Jugadores importados ✅',true)};
  $('#po').onclick=()=>{try{localStorage.removeItem('mcp')}catch(e){}FB.au.signOut(FB.auth)}}
 function profilesC(){scr='prof';cur=null;chrome();
  main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted);margin:0">⭐ ${D.score} puntos</p><p style="color:var(--muted);font-size:14px">${esc((fbU&&fbU.email)||'')}</p><button class="big" id="cj">Cambiar de jugador</button><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;
  $('#cj').onclick=()=>pushNow().then(()=>{try{localStorage.removeItem('mcp')}catch(e){}R.cur=null;players()});
  $('#lg').onclick=()=>pushNow().then(()=>{try{localStorage.removeItem('mcp')}catch(e){}FB.au.signOut(FB.auth)})}
+function localBackup(){try{return JSON.parse(localStorage.getItem('mcb:'+fbU.uid+':'+R.cur)||'null')}catch(e){return null}}
+function connErr(){document.querySelector('header').style.display='none';$('#dock').style.display='none';scr='wait';
+ main.innerHTML='<div class="card" style="margin-top:10vh"><div style="font-size:42px">📡</div><b>No se puede conectar con el servidor</b><p style="color:var(--muted);font-size:14px">Comprueba tu conexión a internet. Tu avance está guardado en la nube y no se ha perdido.</p><button class="big" id="rtr">Reintentar</button><div><button class="lnk" id="rtl">Usar sin conexión (modo local, no se sincroniza)</button></div></div>';
+ $('#rtr').onclick=()=>location.reload();$('#rtl').onclick=()=>localInit()}
 function localInit(){if(R.keep&&R.names.includes(R.keep))enter(R.keep,true);else showLogin('in')}
 async function initApp(){scr='wait';document.querySelector('header').style.display='none';$('#dock').style.display='none';
  main.innerHTML='<div class="card" style="margin-top:12vh"><div style="display:flex;justify-content:center">'+logo(64)+'</div><p style="color:var(--muted)">Cargando…</p></div>';
  cloud=await fbInit();
- if(!cloud){localInit();return}
+ if(!cloud){if(/github\.io$/i.test(location.hostname)){connErr();return}localInit();return}
+ window.addEventListener('offline',()=>setSy('off'));window.addEventListener('online',()=>{setSy('wait');pushNow()});
  LEG={names:R.names.slice(),d:R.d,pin:R.pin,cs:R.cs};R.names=[];R.d={};R.u={};R.keep='';R.pin='';R.cs=[];R.cur=null;
  FB.au.onAuthStateChanged(FB.auth,u=>{
   if(u){fbU=u;scr='wait';document.querySelector('header').style.display='none';$('#dock').style.display='none';main.innerHTML='<div class="card" style="margin-top:12vh">Cargando tu cuenta…</div>';startSync(u.uid)}
   else{stopSync();fbU=null;R.cur=null;R.names=[];R.d={};R.pin='';R.cs=[];parOK=false;D=newD();lm='in';showLoginC('in')}});
- document.addEventListener('visibilitychange',()=>{if(document.hidden)pushNow()})}
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)pushNow()});window.addEventListener('pagehide',()=>pushNow())}
 let cueSel=-1,cueGo=false;
 function cuePicker(){scr='cue';cur=null;document.onkeydown=null;chrome();const AL=S.concat(R.cs||[]);
  main.innerHTML=`<div class="cl"><button class="ct" onclick="playCue(-1)"><span class="e">🎲</span><span>Un cuento al azar<small>¡Sorpresa!</small></span></button>${AL.map((s,i)=>`<button class="ct" onclick="playCue(${i})"><span class="e">📖</span><span>${s.t}${i>=S.length?'<small>Cuento añadido</small>':''}</span></button>`).join('')}</div>`;window.scrollTo(0,0)}
@@ -621,13 +631,13 @@ function parInner(){const wk=rep(7,(_,i)=>{const d=new Date(Date.now()-(6-i)*864
   const fails=Object.entries(D.fc).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>{const[a,l]=k.split('|');return`<div class="row"><div>${A[a]?A[a].e:''} ${l}</div><b>×${n}</b></div>`}).join('')||'<p style="color:var(--muted)">Aún no hay fallos 🎉</p>';
   const lv=Object.keys(A).filter(k=>A[k].ad).map(k=>`${A[k].n}: nivel ${L(k)}`).join(' · ');
   const code=btoa(unescape(encodeURIComponent(JSON.stringify(D))));
-  main.innerHTML=`<div class="card"><b>Puntos de los últimos 7 días</b><div class="chart">${wk.map(x=>`<div style="height:${Math.max(4,x[1]/mx*100)}%;background:var(--m)" title="${x[1]}"></div>`).join('')}</div><div style="display:flex;gap:6px;font-size:12px;color:var(--muted)">${wk.map(x=>`<span style="flex:1;text-align:center">${x[0]}</span>`).join('')}</div></div><div class="card" style="text-align:left"><b>Lo que más falla</b>${fails}<p style="color:var(--muted);font-size:14px">${lv}</p></div><div class="card" style="text-align:left"><b>📄 Informe semanal</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Resumen de la última semana de cada jugador, para guardar en PDF o imprimir.</p><button class="big" id="rv" style="margin-left:0">Ver informe</button></div><div class="card" style="text-align:left"><b>📖 Añadir mi cuento</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Pega un cuento (entre 200 y 2500 letras). La app creará las preguntas sola y saldrá junto a los demás cuentos.${cloud?' Lo verán todas las familias que usan la app.':''}</p><input id="ct" placeholder="Título del cuento" maxlength="60" style="margin-bottom:8px"><textarea id="cx" rows="6" placeholder="Pega aquí el texto del cuento"></textarea><button class="big" id="cs" style="margin-left:0">Crear preguntas y guardar</button>${(R.cs||[]).map((s,i)=>(!cloud||(fbU&&s.uid===fbU.uid))?`<div class="row"><div>📖 ${s.t}</div><button class="chip" data-d="${i}">🗑️</button></div>`:'').join('')}</div><div class="card" style="text-align:left"><button class="big s" id="mu" style="margin-left:0">${D.mute?'🔇 Sonidos desactivados':'🔊 Sonidos activados'}</button><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Copia de seguridad: copia este código para pasar el progreso a otro dispositivo.</p><textarea rows="2" readonly onclick="this.select()">${code}</textarea><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Importar código (sustituye el progreso de ${R.cur}):</p><textarea rows="2" id="im"></textarea><button class="big" id="ib" style="margin-left:0">Importar</button><button class="big s" id="cp">Cambiar PIN</button><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><button class="big s" id="rs" style="margin-left:0">🧹 Empezar de cero (borra el progreso de ${R.cur})</button><button class="big s" id="dp" style="margin-left:0">🗑️ Eliminar usuario ${R.cur}</button></div>`;
-  $('#mu').onclick=()=>{D.mute=D.mute?0:1;save();parInner()};$('#cp').onclick=()=>{R.pin='';savePin();save();parOK=false;gate()};$('#rv').onclick=()=>go('rep');
+  main.innerHTML=`<div class="card"><b>Puntos de los últimos 7 días</b><div class="chart">${wk.map(x=>`<div style="height:${Math.max(4,x[1]/mx*100)}%;background:var(--m)" title="${x[1]}"></div>`).join('')}</div><div style="display:flex;gap:6px;font-size:12px;color:var(--muted)">${wk.map(x=>`<span style="flex:1;text-align:center">${x[0]}</span>`).join('')}</div></div><div class="card" style="text-align:left"><b>Lo que más falla</b>${fails}<p style="color:var(--muted);font-size:14px">${lv}</p></div>${cloud&&fbU&&R.cur?(()=>{const b=localBackup();return b?`<div class="card" style="text-align:left"><b>💾 Copia automática de este dispositivo</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Copia guardada aquí: ${b.score||0} puntos y ${(b.hist||[]).length} partidas. Úsala solo si el avance de la nube se ha perdido.</p><button class="big s" id="rb" style="margin-left:0">Restaurar esta copia</button></div>`:''})():''}<div class="card" style="text-align:left"><b>📄 Informe semanal</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Resumen de la última semana de cada jugador, para guardar en PDF o imprimir.</p><button class="big" id="rv" style="margin-left:0">Ver informe</button></div><div class="card" style="text-align:left"><b>📖 Añadir mi cuento</b><p style="font-size:14px;color:var(--muted);margin:6px 0">Pega un cuento (entre 200 y 2500 letras). La app creará las preguntas sola y saldrá junto a los demás cuentos.${cloud?' Lo verán todas las familias que usan la app.':''}</p><input id="ct" placeholder="Título del cuento" maxlength="60" style="margin-bottom:8px"><textarea id="cx" rows="6" placeholder="Pega aquí el texto del cuento"></textarea><button class="big" id="cs" style="margin-left:0">Crear preguntas y guardar</button>${(R.cs||[]).map((s,i)=>(!cloud||(fbU&&s.uid===fbU.uid))?`<div class="row"><div>📖 ${s.t}</div><button class="chip" data-d="${i}">🗑️</button></div>`:'').join('')}</div><div class="card" style="text-align:left"><button class="big s" id="mu" style="margin-left:0">${D.mute?'🔇 Sonidos desactivados':'🔊 Sonidos activados'}</button><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Copia de seguridad: copia este código para pasar el progreso a otro dispositivo.</p><textarea rows="2" readonly onclick="this.select()">${code}</textarea><p style="font-size:14px;color:var(--muted);margin:10px 0 6px">Importar código (sustituye el progreso de ${R.cur}):</p><textarea rows="2" id="im"></textarea><button class="big" id="ib" style="margin-left:0">Importar</button><button class="big s" id="cp">Cambiar PIN</button><hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><button class="big s" id="rs" style="margin-left:0">🧹 Empezar de cero (borra el progreso de ${R.cur})</button><button class="big s" id="dp" style="margin-left:0">🗑️ Eliminar usuario ${R.cur}</button></div>`;
+  $('#mu').onclick=()=>{D.mute=D.mute?0:1;save();parInner()};$('#cp').onclick=()=>{R.pin='';savePin();save();parOK=false;gate()};$('#rv').onclick=()=>go('rep');if($('#rb'))$('#rb').onclick=function(){if(this.dataset.c){const b=localBackup();if(b){D=Object.assign(newD(),b);R.d[R.cur]=D;forceW=true;delete remote[R.cur];save();$('#score').textContent=D.score;toast('Copia restaurada ✅',true);parInner()}}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}};
  $('#cs').onclick=()=>{const t=$('#ct').value.trim(),x=$('#cx').value.trim();if(t.length<2){toast('Pon un título',false);return}if(x.length<200){toast('El cuento es muy corto (mínimo 200 letras)',false);return}if(x.length>2500){toast('Es demasiado largo (máximo 2500 letras)',false);return}const q=mkQ(t,x);if(q.length<3){toast('No he podido crear preguntas. Prueba con un texto más largo.',false);return}const o={t:esc(t),x:esc(x).replace(/\n/g,'<br>'),q};if(cloud){FB.fs.addDoc(FB.fs.collection(FB.db,'stories'),{uid:fbU.uid,t:o.t,x:o.x,qj:JSON.stringify(q),at:Date.now()}).then(()=>toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)).catch(()=>toast('No se pudo guardar el cuento',false))}else{(R.cs=R.cs||[]).push(o);save();toast('Cuento guardado 📖 ('+q.length+' preguntas)',true)}parInner()};
  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=function(){if(this.dataset.c){const s=R.cs[+this.dataset.d];if(cloud){if(s&&s.id)FB.fs.deleteDoc(FB.fs.doc(FB.db,'stories',s.id)).catch(()=>toast('No se pudo borrar',false))}else{R.cs.splice(+this.dataset.d,1);save()}parInner()}else{this.dataset.c=1;this.textContent='¿Borrar?'}});
    $('#dp').onclick=function(){if(this.dataset.c){const n=R.cur;R.names=R.names.filter(x=>x!==n);delete R.d[n];delete R.u[n];R.cur=null;R.keep='';D=newD();if(cloud){if(fbU)FB.fs.deleteDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',n)).catch(()=>{})}else save();toast('Usuario eliminado',true);cloud?players():showLogin('in')}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}};
-  $('#ib').onclick=()=>{try{const o=JSON.parse(decodeURIComponent(escape(atob($('#im').value.trim()))));if(typeof o.score!=='number'||!Array.isArray(o.hist))throw 0;D=Object.assign(newD(),o);save();$('#score').textContent=D.score;toast('Progreso importado ✅',true);parInner()}catch(e){toast('Código no válido',false)}};
-  $('#rs').onclick=function(){if(this.dataset.c){D=newD();save();$('#score').textContent=0;parInner()}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}}}
+  $('#ib').onclick=()=>{try{const o=JSON.parse(decodeURIComponent(escape(atob($('#im').value.trim()))));if(typeof o.score!=='number'||!Array.isArray(o.hist))throw 0;D=Object.assign(newD(),o);forceW=true;if(R.cur)delete remote[R.cur];save();$('#score').textContent=D.score;toast('Progreso importado ✅',true);parInner()}catch(e){toast('Código no válido',false)}};
+  $('#rs').onclick=function(){if(this.dataset.c){D=newD();forceW=true;if(R.cur)delete remote[R.cur];save();$('#score').textContent=0;parInner()}else{this.dataset.c=1;this.textContent='¿Seguro? Pulsa otra vez'}}}
 const logo=sz=>`<svg viewBox="0 0 48 48" width="${sz}" height="${sz}" role="img" aria-label="Mi cuaderno"><defs><linearGradient id="lg${sz}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b6cff"/><stop offset="1" stop-color="#12a594"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#lg${sz})"/><path d="M24 19C19 15 13 15 9 17V37C13 35 19 35 24 39Z" fill="#fff"/><path d="M24 19C29 15 35 15 39 17V37C35 35 29 35 24 39Z" fill="#fff" opacity=".88"/><path d="M24 19V39" stroke="#5b6cff" stroke-width="1.4"/><polygon points="37,3.5 38.4,7 42.2,7.3 39.3,9.8 40.2,13.5 37,11.5 33.8,13.5 34.7,9.8 31.8,7.3 35.6,7" fill="#ffd166"/></svg>`;
 async function hsh(p,u){const s=u.toLowerCase()+'|'+p+'|mc3';try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of s)h=(h*33^c.charCodeAt(0))>>>0;return'x'+h}}
 let lm='in';
@@ -646,7 +656,7 @@ async function doLogin(){const raw=$('#lu').value.trim().replace(/[<>&"']/g,''),
  if(!R.u[ex]){if(p.length<4){toast('Crea una contraseña de al menos 4 caracteres',false);return}R.u[ex]=h;return enter(ex,$('#lk').checked)}
  if(h!==R.u[ex]){toast('Contraseña incorrecta',false);return}
  enter(ex,$('#lk').checked)}
-function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}save();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
+function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}if(!cloud)save();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
 function profiles(){if(cloud)return profilesC();scr='prof';cur=null;chrome();main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted)">⭐ ${D.score} puntos</p><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;$('#lg').onclick=()=>{save();R.cur=null;R.keep='';save();showLogin('in')}}
 document.querySelectorAll('#dock button').forEach(b=>b.onclick=()=>go(b.dataset.s));
 const TH=['auto','light','dark'],TI={auto:'🌓',light:'☀️',dark:'🌙'};
