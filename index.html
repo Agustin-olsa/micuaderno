@@ -70,7 +70,7 @@ textarea,input{width:100%;font:inherit;font-size:14px;border:2px solid var(--lin
 </head>
 <body>
 <div id="app">
-<header><button class="chip" id="bk">👤</button><h1 id="ttl">Hola</h1><span id="sy" style="font-size:18px"></span><button class="chip" id="th">🌓</button><div class="chip">⭐ <span id="score">0</span></div><div id="logo"></div></header>
+<header><button class="chip" id="bk">👤</button><h1 id="ttl">Hola</h1><button class="chip" id="sy" aria-label="Guardar ahora" style="display:none;padding:7px 10px;font-size:14px"></button><button class="chip" id="th">🌓</button><div class="chip">⭐ <span id="score">0</span></div><div id="logo"></div></header>
 <main id="main"></main>
 <footer id="ft"><div class="lg" id="fl"></div><div>© <span id="yr"></span> <b>Agustín O.S.</b></div><div>Todos los derechos reservados · Mi cuaderno, 2º de primaria</div></footer>
 </div>
@@ -513,9 +513,9 @@ function end(){const k=cur.k,a=A[k],h={t:Date.now(),k,ok:cur.ok,n:cur.n,p:cur.pt
   main.innerHTML=`<div class="card" style="--a:${G[a.g][1]}"><div style="font-size:48px">${p>=80?'🏆':p>=50?'👏':'💪'}</div><div class="big-n">${h.ok} / ${h.n}</div><p>Puntos de esta ronda: <b>${h.p>=0?'+':''}${h.p}</b></p><p style="color:var(--muted)">${cmp}</p>${lv}${nw.map(m=>`<p>🎉 ¡Medalla nueva! ${m[0]} ${m[1]}</p>`).join('')}${pn>0?`<p>🎉 ¡${pn>1?pn+' medallas nuevas':'Medalla nueva'} de puntos! ${PI[(pm()-1)%7]}</p>`:''}<button class="big" onclick="start('${k}')">Otra vez</button><button class="big s" onclick="go('home')">Inicio</button></div>`}
 
 /* ---- pantallas ---- */
-function chrome(){applyBg();const home=scr==='home';$('#dock').style.display=(scr==='play'||scr==='end')?'none':'flex';
+function chrome(){applyBg();if(cloud&&dirty)pushNow();const home=scr==='home';$('#dock').style.display=(scr==='play'||scr==='end')?'none':'flex';
   document.querySelectorAll('#dock button').forEach(b=>b.classList.toggle('on',b.dataset.s===scr));
-  $('#bk').innerHTML=home?avHtml(D,28):'←';$('#bk').onclick=()=>home?profiles():go('home');
+  $('#bk').innerHTML=home?avHtml(D,28):'←';$('#bk').onclick=()=>{if(home)profiles();else saveNow(scr==='play'||scr==='end').then(()=>go('home'))};
   $('#ttl').textContent=home?`${(D.shop&&D.shop.av)||''} Hola, ${R.cur} 👋`.trim():scr==='play'||scr==='end'?A[cur.k].n:({prog:'Mi progreso',cal:'Calendario',meds:'Medallas',par:'Zona de padres',prof:'Mi cuenta',cue:'Elige un cuento',reto:'Reto del día',shop:'Tienda',rep:'Informe semanal',exam:'Examen'})[scr]||''}
 function go(s){scr=s;cur=null;document.onkeydown=null;if(s!=='par'&&s!=='rep')parOK=false;if(s==='cal')cmo=0;chrome();({home,prog,meds,cal,par,prof:profiles,reto:retoScreen,shop:shopScreen,rep:repScreen,exam:examScreen})[s]();window.scrollTo(0,0)}
 function ring(p){const c=2*Math.PI*30;return`<svg width="76" height="76" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="9"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--ok)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 38 38)"/><text x="38" y="44" text-anchor="middle" font-size="20" font-weight="800" fill="currentColor">${p>=1?'✓':Math.round(p*100)+'%'}</text></svg>`}
@@ -557,13 +557,25 @@ async function fbInit(){try{const B='https://www.gstatic.com/firebasejs/10.14.1/
  FB={a,au,fs,auth:au.getAuth(app),db};return true}catch(e){console.warn('Firebase no disponible: modo local',e);return false}}
 const fbErr=c=>({'auth/invalid-email':'El email no es válido','auth/invalid-credential':'Email o contraseña incorrectos','auth/user-not-found':'No hay ninguna cuenta con ese email','auth/wrong-password':'Contraseña incorrecta','auth/email-already-in-use':'Ese email ya tiene una cuenta','auth/weak-password':'La contraseña necesita al menos 6 caracteres','auth/too-many-requests':'Demasiados intentos. Espera un poco','auth/network-request-failed':'Sin conexión a internet','auth/missing-password':'Escribe la contraseña'}[c]||'No se ha podido completar ('+c+')');
 const progScore=d=>d?Math.max(d.tot||0,d.score||0)+(d.hist||[]).length/1000:0;
-let remote={},sy='',forceW=false,dirty=false;
-function setSy(s){sy=s;const e=$('#sy');if(e)e.textContent=s==='ok'?'☁️':s==='err'?'⚠️':s==='off'?'📴':s==='wait'?'⏳':''}
+let remote={},sy='',forceW=false,dirty=false,lastSave=0;
+function setSy(s){sy=s;const e=$('#sy');if(!e)return;e.textContent=s==='ok'?'💾 ✓':s==='err'?'💾 ⚠️':s==='off'?'💾 📴':s==='wait'?'💾 ⏳':'';e.style.display=s?'':'none'}
 function pushSoon(){dirty=true;clearTimeout(svT);setSy('wait');svT=setTimeout(pushNow,3000)}
-function pushNow(force){clearTimeout(svT);dirty=false;if(!cloud||!fbU||!R.cur)return Promise.resolve();const{fs,db}=FB,n=R.cur,rem=remote[n];
- if(force!==true&&!forceW&&rem&&progScore(rem)>progScore(R.d[n]||D)+.0005){R.d[n]=Object.assign(newD(),rem);D=R.d[n];$('#score').textContent=D.score;setSy('ok');toast('Se han cargado datos más recientes de otro dispositivo',true);return Promise.resolve()}
+function pushNow(force){clearTimeout(svT);dirty=false;if(!cloud||!fbU||!R.cur)return Promise.resolve(true);const{fs,db}=FB,n=R.cur,rem=remote[n];
+ if(force!==true&&!forceW&&rem&&progScore(rem)>progScore(R.d[n]||D)+.0005){R.d[n]=Object.assign(newD(),rem);D=R.d[n];$('#score').textContent=D.score;setSy('ok');toast('Se han cargado datos más recientes de otro dispositivo',true);return Promise.resolve(true)}
  forceW=false;
- return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',n),{j:JSON.stringify(R.d[n]||D),u:Date.now()}).then(()=>setSy(navigator.onLine===false?'off':'ok')).catch(e=>{console.warn(e);setSy('err');toast('No se pudo guardar en la nube',false)})}
+ return fs.setDoc(fs.doc(db,'families',fbU.uid,'players',n),{j:JSON.stringify(R.d[n]||D),u:Date.now()}).then(()=>{lastSave=Date.now();setSy(navigator.onLine===false?'off':'ok');return true}).catch(e=>{console.warn(e);setSy('err');toast('No se pudo guardar en la nube',false);return false})}
+async function saveNow(show){if(!cloud){save();if(show)toast('Progreso guardado ✅',true);return true}
+ if(!fbU||!R.cur)return true;setSy('wait');
+ const ok=await Promise.race([pushNow(),new Promise(r=>setTimeout(()=>r(false),8000))]);
+ if(!ok)setSy(navigator.onLine===false?'off':'err');
+ if(show)toast(ok?'Guardado en la nube ☁️ ✅':'No se pudo confirmar el guardado. Se enviará cuando haya conexión.',ok);return ok}
+async function syncFromCloud(){if(!cloud||!fbU||!R.cur)return;setSy('wait');
+ try{const{fs,db}=FB,s=await fs.getDocFromServer(fs.doc(db,'families',fbU.uid,'players',R.cur));
+  if(!s.exists()){await saveNow(true);profiles();return}
+  let o={};try{o=JSON.parse(s.data().j||'{}')}catch(e){}remote[R.cur]=o;
+  if(progScore(o)>progScore(D)+.0005){R.d[R.cur]=Object.assign(newD(),o);D=R.d[R.cur];$('#score').textContent=D.score;setSy('ok');toast('Datos actualizados desde la nube ✅',true)}
+  else{await saveNow(true)}
+  profiles()}catch(e){console.warn(e);setSy('err');toast('No se pudo conectar con la nube',false)}}
 function savePin(){if(cloud&&fbU)FB.fs.setDoc(FB.fs.doc(FB.db,'families',fbU.uid),{pin:R.pin},{merge:true}).catch(e=>console.warn(e))}
 function stopSync(){unsubs.forEach(f=>{try{f()}catch(e){}});unsubs=[]}
 function startSync(uid){stopSync();const{fs,db}=FB;let gF=false,gP=false,sF=false,sP=false,late=false;remote={};
@@ -602,7 +614,7 @@ function players(){scr='players';cur=null;document.onkeydown=null;D=newD();$('#s
  if($('#pi'))$('#pi').onclick=()=>{LEG.names.forEach(n=>{const k=n.replace(/[\/\\.<>&"']/g,'');if(k.length<2||R.names.includes(k))return;FB.fs.setDoc(FB.fs.doc(FB.db,'families',fbU.uid,'players',k),{j:JSON.stringify(Object.assign(newD(),(LEG.d||{})[n]||{})),u:Date.now()}).catch(e=>console.warn(e))});try{localStorage.setItem('mcimp','1')}catch(e){}toast('Jugadores importados ✅',true)};
  $('#po').onclick=()=>{try{localStorage.removeItem('mcp')}catch(e){}FB.au.signOut(FB.auth)}}
 function profilesC(){scr='prof';cur=null;chrome();
- main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted);margin:0">⭐ ${D.score} puntos</p><p style="color:var(--muted);font-size:14px">${esc((fbU&&fbU.email)||'')}</p><button class="big" id="cj">Cambiar de jugador</button><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;
+ main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted);margin:0">⭐ ${D.score} puntos</p><p style="color:var(--muted);font-size:14px">${esc((fbU&&fbU.email)||'')}</p><div style="text-align:left;background:var(--bg);border-radius:12px;padding:10px;font-size:13px;color:var(--muted);margin:8px 0;line-height:1.6">☁️ Cuenta: <b>${esc((fbU&&fbU.email)||'')}</b> (código ${fbU?fbU.uid.slice(-5):''})<br>Jugador: <b>${R.cur}</b><br>Puntos aquí: <b>${D.score}</b> · En la nube: <b>${remote[R.cur]?remote[R.cur].score:'?'}</b><br>Último guardado en la nube: <b>${lastSave?new Date(lastSave).toLocaleTimeString('es'):'—'}</b></div><button class="big" onclick="saveNow(true)">💾 Guardar ahora</button><button class="big s" onclick="syncFromCloud()">🔄 Actualizar desde la nube</button><button class="big" id="cj">Cambiar de jugador</button><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;
  $('#cj').onclick=()=>pushNow().then(()=>{try{localStorage.removeItem('mcp')}catch(e){}R.cur=null;players()});
  $('#lg').onclick=()=>pushNow().then(()=>{try{localStorage.removeItem('mcp')}catch(e){}FB.au.signOut(FB.auth)})}
 function localBackup(){try{return JSON.parse(localStorage.getItem('mcb:'+fbU.uid+':'+R.cur)||'null')}catch(e){return null}}
@@ -610,7 +622,7 @@ function connErr(){document.querySelector('header').style.display='none';$('#doc
  main.innerHTML='<div class="card" style="margin-top:10vh"><div style="font-size:42px">📡</div><b>No se puede conectar con el servidor</b><p style="color:var(--muted);font-size:14px">Comprueba tu conexión a internet. Tu avance está guardado en la nube y no se ha perdido.</p><button class="big" id="rtr">Reintentar</button><div><button class="lnk" id="rtl">Usar sin conexión (modo local, no se sincroniza)</button></div></div>';
  $('#rtr').onclick=()=>location.reload();$('#rtl').onclick=()=>localInit()}
 function localInit(){if(R.keep&&R.names.includes(R.keep))enter(R.keep,true);else showLogin('in')}
-async function initApp(){scr='wait';document.querySelector('header').style.display='none';$('#dock').style.display='none';
+async function initApp(){$('#sy').onclick=()=>saveNow(true);scr='wait';document.querySelector('header').style.display='none';$('#dock').style.display='none';
  main.innerHTML='<div class="card" style="margin-top:12vh"><div style="display:flex;justify-content:center">'+logo(64)+'</div><p style="color:var(--muted)">Cargando…</p></div>';
  cloud=await fbInit();
  if(!cloud){if(/github\.io$/i.test(location.hostname)){connErr();return}localInit();return}
@@ -656,7 +668,7 @@ async function doLogin(){const raw=$('#lu').value.trim().replace(/[<>&"']/g,''),
  if(!R.u[ex]){if(p.length<4){toast('Crea una contraseña de al menos 4 caracteres',false);return}R.u[ex]=h;return enter(ex,$('#lk').checked)}
  if(h!==R.u[ex]){toast('Contraseña incorrecta',false);return}
  enter(ex,$('#lk').checked)}
-function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}if(!cloud)save();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
+function enter(u,keep){R.cur=u;R.d[u]=Object.assign(newD(),R.d[u]||{});D=R.d[u];R.keep=keep?u:'';if(cloud)try{localStorage.setItem('mcp',fbU.uid+'|'+u)}catch(e){}if(cloud)setSy(navigator.onLine===false?'off':'ok');if(!cloud)save();document.querySelector('header').style.display='';$('#score').textContent=D.score;go('home')}
 function profiles(){if(cloud)return profilesC();scr='prof';cur=null;chrome();main.innerHTML=`<div class="card"><div style="display:flex;justify-content:center;font-size:46px">${avHtml(D,84)}</div><div class="big-n" style="font-size:26px">${R.cur}</div><p style="color:var(--muted)">⭐ ${D.score} puntos</p><button class="big" id="ea" onclick="shopTab='a';go('shop')">😀 Elegir avatar</button><button class="big s" id="lg">Cerrar sesión</button></div>`;$('#lg').onclick=()=>{save();R.cur=null;R.keep='';save();showLogin('in')}}
 document.querySelectorAll('#dock button').forEach(b=>b.onclick=()=>go(b.dataset.s));
 const TH=['auto','light','dark'],TI={auto:'🌓',light:'☀️',dark:'🌙'};
